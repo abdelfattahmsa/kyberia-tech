@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="imgs/kyberia_mark_transparent.png" width="96" alt="Kyberia Tech Mark" />
+<img src="img/kyberia_mark_transparent.png" width="96" alt="Kyberia Tech Mark" />
 
 # KYBERIA TECH
 
