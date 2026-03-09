@@ -27,7 +27,77 @@
   </head>
 	
   <body>
+	<div class="wf-nav wf-annotate" data-ann="NAV · v2">
+    <div class="wf-nav-logo"><div class="dot"></div>KYBERIA TECH</div>
+    <ul class="wf-nav-items">
+      <li>About</li><li>Services</li><li>Work</li><li>Contact</li>
+    </ul>
+    <div class="nav-right">
 
+      <!-- Language Switcher -->
+      <div class="nav-lang" id="navLang">
+        <button class="nav-lang-btn" onclick="toggleLang()" aria-label="Language">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="7"/><path d="M8 1c-2 3-2 11 0 14M8 1c2 3 2 11 0 14M1 8h14"/></svg>
+          <span id="langLabel">EN</span>
+          <span class="nav-lang-arrow">▾</span>
+        </button>
+        <div class="nav-lang-dropdown" id="langDropdown">
+          <div class="nav-lang-opt active" onclick="setLang('EN','🇬🇧')"><span class="flag">🇬🇧</span>English</div>
+          <div class="nav-lang-opt" onclick="setLang('AR','🇸🇦')" dir="rtl"><span class="flag">🇸🇦</span>العربية</div>
+          <div class="nav-lang-opt" onclick="setLang('DE','🇩🇪')"><span class="flag">🇩🇪</span>Deutsch</div>
+          <div class="nav-lang-opt" onclick="setLang('JA','🇯🇵')"><span class="flag">🇯🇵</span>日本語</div>
+          <div class="nav-lang-opt" onclick="setLang('KO','🇰🇷')"><span class="flag">🇰🇷</span>한국어</div>
+        </div>
+      </div>
+
+      <!-- Theme Toggle -->
+      <button class="nav-theme-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle theme">
+        <!-- Sun icon (shown in dark mode) -->
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <!-- Moon icon (shown in light mode) -->
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      </button>
+
+      <!-- Apps / Sub-brands Menu -->
+      <div class="nav-apps" id="navApps">
+        <button class="nav-apps-btn" onclick="toggleApps()" aria-label="Kyberia ecosystem">
+          <div class="burger"><span></span><span></span><span></span></div>
+          <span>More</span>
+        </button>
+        <div class="nav-apps-dropdown" id="appsDropdown">
+          <div class="nav-apps-header">Kyberia Ecosystem</div>
+          <div class="nav-apps-item">
+            <div class="nai-icon">⚗</div>
+            <div class="nai-text">
+              <div class="nai-name">Kyberia Labs</div>
+              <div class="nai-tag">Experiments & R&D</div>
+            </div>
+            <div class="nai-arrow">→</div>
+          </div>
+          <div class="nav-apps-item">
+            <div class="nai-icon">◈</div>
+            <div class="nai-text">
+              <div class="nai-name">Kyberia Studio</div>
+              <div class="nai-tag">Creative Production</div>
+            </div>
+            <div class="nai-arrow">→</div>
+          </div>
+          <div class="nav-apps-item">
+            <div class="nai-icon">✦</div>
+            <div class="nai-text">
+              <div class="nai-name">Kyberia Blog</div>
+              <div class="nai-tag">Ideas & Insights</div>
+            </div>
+            <div class="nai-arrow">→</div>
+          </div>
+          <div class="nav-apps-footer">Part of Peridot Holding</div>
+        </div>
+      </div>
+
+      <!-- Primary CTA -->
+      <div class="wf-nav-cta">Start a Project →</div>
+    </div>
+  </div>
 
 
 
