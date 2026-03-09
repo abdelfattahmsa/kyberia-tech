@@ -785,6 +785,10 @@
   max-width: var(--container-max);
   margin-inline: auto;
   padding-inline: var(--container-padding-mobile);
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 640px) {
