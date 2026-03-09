@@ -389,7 +389,7 @@ body::before {
   background: var(--nb);
   border-bottom: 1px solid var(--br2);
   width: 100%;
-  position: fixed;
+  position: sticky;
   top: 0;
   z-index: 100;
 }
