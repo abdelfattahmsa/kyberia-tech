@@ -240,7 +240,6 @@ body::before {
 
 /* ── MAIN ── */
 .main {
-  margin-left: 256px;
   flex: 1;
 }
 
