@@ -762,9 +762,9 @@
   --container-sm: 640px;
   --container-md: 768px;
   --container-lg: 1024px;
-  --container-xl: 1280px;
-  --container-2xl: 1536px;
-  --container-max: 100%;
+  --container-xl: 1920px;
+  --container-2xl: 1920px;
+  --container-max: 1920px;
   /* practical max for content */
 
   --container-padding-mobile: var(--space-4);
