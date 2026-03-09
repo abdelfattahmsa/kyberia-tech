@@ -383,11 +383,9 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 48px;
   height: 64px;
   background: var(--nb);
-  border-bottom: 1px solid var(--br2);
-  width: 100%;
+  border-bottom: 0px solid var(--br2);
 }
 
 .wf-nav-logo {
