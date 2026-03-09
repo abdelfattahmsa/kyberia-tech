@@ -72,7 +72,7 @@ body::before {
 
 /* ── SIDEBAR ── */
 .sb {
-  width: 256px;
+  width: 0px;
   flex-shrink: 0;
   position: fixed;
   top: 0;
