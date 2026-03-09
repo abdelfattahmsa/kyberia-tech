@@ -764,7 +764,7 @@
   --container-lg: 1024px;
   --container-xl: 1280px;
   --container-2xl: 1536px;
-  --container-max: 1400px;
+  --container-max: 100%;
   /* practical max for content */
 
   --container-padding-mobile: var(--space-4);
