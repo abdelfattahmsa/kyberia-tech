@@ -1892,6 +1892,7 @@ body::before {
   gap: 5px;
   padding: 6px 10px;
   background: transparent;
+  border: 0px solid rgba(255, 255, 255, 0.10);
   color: var(--g300);
   font-family: var(--fm);
   font-size: 9.5px;
@@ -1902,6 +1903,7 @@ body::before {
 }
 
 .nav-lang-btn:hover {
+  border-color: rgba(255, 255, 255, 0.22);
   color: var(--white);
 }
 
@@ -1975,7 +1977,7 @@ body::before {
   width: 32px;
   height: 32px;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 0px solid rgba(255, 255, 255, 0.10);
   color: var(--g300);
   cursor: pointer;
   transition: all .15s var(--ease);
