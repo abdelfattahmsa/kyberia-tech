@@ -15,11 +15,11 @@ function showPage(id) {
 /* ═══════════════════════ THEME TOGGLE ═══════════════════════ */
 function toggleTheme() {
   document.body.classList.toggle('light-mode');
-  try { localStorage.setItem('kt-theme', document.body.classList.contains('light-mode') ? 'light' : 'dark'); } catch(e){}
+  try { localStorage.setItem('kt-theme', document.body.classList.contains('light-mode') ? 'light' : 'dark'); } catch (e) { }
 }
 try {
   if (localStorage.getItem('kt-theme') === 'light') document.body.classList.add('light-mode');
-} catch(e){}
+} catch (e) { }
 
 /* ═══════════════════════ LANGUAGE SWITCHER ═══════════════════════ */
 const langs = [
@@ -102,7 +102,7 @@ function toggleApps() {
 }
 
 /* Close dropdowns on outside click */
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
   if (!e.target.closest('.nav-lang') && !e.target.closest('.nav-apps')) {
     langOpen = false; appsOpen = false;
     document.querySelectorAll('.lang-dropdown, .apps-dropdown').forEach(d => d.style.display = 'none');
