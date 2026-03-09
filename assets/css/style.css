@@ -1,1 +1,26 @@
-
+#btt {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 40px;
+  height: 40px;
+  background: var(--s2);
+  border: 1px solid var(--br2);
+  color: var(--g300);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s, border-color .2s, color .2s;
+  z-index: 900;
+}
+#btt:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+}
+#btt.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
