@@ -82,7 +82,6 @@ body::before {
   border-right: 1px solid var(--br);
   display: flex;
   flex-direction: column;
-  z-index: 200;
   overflow: hidden;
 }
 
@@ -1935,7 +1934,7 @@ body::before {
   pointer-events: none;
   transform: translateY(-6px);
   transition: opacity .18s var(--ease), transform .18s var(--ease);
-  z-index: 200;
+  z-index: 300;
 }
 
 .nav-lang.open .nav-lang-dropdown {
@@ -2055,7 +2054,7 @@ body.light-mode .wf-strip {
   gap: 6px;
   padding: 6px 10px;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 0px solid rgba(255, 255, 255, 0.10);
   color: var(--g300);
   cursor: pointer;
   font-family: var(--fm);
@@ -2108,7 +2107,7 @@ body.light-mode .wf-strip {
   pointer-events: none;
   transform: translateY(-6px);
   transition: opacity .18s var(--ease), transform .18s var(--ease);
-  z-index: 200;
+  z-index: 300;
 }
 
 .nav-apps.open .nav-apps-dropdown {
