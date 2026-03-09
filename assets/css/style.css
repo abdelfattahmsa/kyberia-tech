@@ -388,6 +388,10 @@ body::before {
   height: 64px;
   background: var(--nb);
   border-bottom: 1px solid var(--br2);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 100;
 }
 
 .wf-nav-logo {
