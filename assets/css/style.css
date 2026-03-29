@@ -79,7 +79,7 @@ body::before {
   left: 0;
   height: 100vh;
   background: var(--nb);
-  border-right: 1px solid var(--br);
+  border-bottom: 1px solid var(--br);
   display: flex;
   flex-direction: column;
   overflow: hidden;
