@@ -117,7 +117,7 @@ try {
 
 /* ── SHARED CLOSE ALL ───────────────────────────────────────────── */
 function closeAllDropdowns() {
-  document.querySelectorAll('.nav-lang.open, .nav-apps.open, .has-submenu.open').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.nav-lang.open, .nav-apps.open, .has-submenu.open, .mobile-services-item.open').forEach(el => el.classList.remove('open'));
 }
 
 /* ── LANGUAGE SWITCHER ──────────────────────────────────────────── */
@@ -174,8 +174,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ── MOBILE MENU ────────────────────────────────────────────────── */
 function toggleMobileMenu() {
-  document.body.classList.toggle('nav-open');
-  if (!document.body.classList.contains('nav-open')) {
+  const isOpen = document.body.classList.toggle('nav-open');
+  const btn = document.querySelector('.kt-nav__hamburger');
+  if (btn) {
+    btn.setAttribute('aria-expanded', isOpen);
+  }
+  if (!isOpen) {
     closeAllDropdowns();
   }
 }
