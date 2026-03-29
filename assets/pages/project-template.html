@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<!--
+  ═══════════════════════════════════════════════════════
+  KYBERIA TECH — PROJECT PAGE TEMPLATE
+  Instructions for use:
+  1. Duplicate this file and rename it: e.g. amc-group.html
+  2. Replace all [PLACEHOLDER] values with real project data
+  3. Swap out project-placeholder divs with actual <img> tags
+  4. Update the <head> meta tags for SEO
+  5. Save to assets/pages/
+  6. Add an entry in the Work grid in index.html pointing here
+  ═══════════════════════════════════════════════════════
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ── PROJECT SEO — UPDATE THESE ───────────────────────────── -->
+  <title>[PROJECT NAME] · Kyberia Tech</title>
+  <meta name="description" content="[One-sentence description of the project and outcome.]">
+  <meta name="keywords" content="[client industry, service type, location], Kyberia Tech portfolio">
+  <meta property="og:title" content="[PROJECT NAME] · Kyberia Tech">
+  <meta property="og:description" content="[One-sentence description of the project and outcome.]">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="../img/projects/[project-slug]/cover.jpg">
+  <!-- ──────────────────────────────────────────────────────────── -->
+
+  <link rel="icon" type="image/png" href="../img/kyberia_mark_transparent.png">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&family=Spline+Sans+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+
+  <style>
+    /* ── Project page–specific styles ─────────────────────── */
+    .proj-nav {
+      position: sticky; top: 0; z-index: 500; width: 100%;
+      background: rgba(10,10,10,.96); border-bottom: 1px solid var(--br);
+      backdrop-filter: blur(14px);
+    }
+    .proj-nav__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; padding-inline: var(--section-px);
+    }
+    .proj-nav__logo {
+      font-family: var(--fd); font-weight: 700; font-size: 15px;
+      letter-spacing: .04em; color: var(--white); cursor: pointer;
+      display: flex; align-items: center; gap: 8px; text-decoration: none;
+    }
+    .logo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pink); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(.75)} }
+    .proj-nav__back {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--fm); font-size: 10px; color: var(--g500);
+      letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+      transition: color var(--dur);
+    }
+    .proj-nav__back:hover { color: var(--pink); }
+
+    /* Hero */
+    .proj-hero {
+      width: 100%; background: var(--black); position: relative; overflow: hidden;
+    }
+    .proj-hero__cover {
+      width: 100%; aspect-ratio: 16/6; background: var(--s2);
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .proj-hero__cover img { width: 100%; height: 100%; object-fit: cover; }
+    .proj-hero__cover-placeholder {
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--fm); font-size: 10px; color: var(--g500);
+      letter-spacing: .14em; text-transform: uppercase; width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--s2), var(--s1));
+    }
+    .proj-hero__meta {
+      padding: clamp(32px,5vw,64px) var(--section-px);
+      display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: start;
+    }
+    .proj-hero__eyebrow {
+      font-family: var(--fm); font-size: 9px; color: var(--pink);
+      letter-spacing: .22em; text-transform: uppercase; margin-bottom: 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .proj-hero__eyebrow::before { content:''; width:24px; height:1px; background:var(--pink); }
+    .proj-hero__title {
+      font-family: var(--fd); font-weight: 700;
+      font-size: clamp(36px,5vw,68px); letter-spacing: -.03em; line-height: .95;
+      margin-bottom: 20px;
+    }
+    .proj-hero__title em { font-style: normal; color: var(--pink); }
+    .proj-hero__summary {
+      font-size: clamp(15px,1.5vw,18px); color: var(--g300);
+      max-width: 560px; line-height: 1.75;
+    }
+    .proj-meta-grid {
+      display: flex; flex-direction: column; gap: 16px;
+      border-left: 1px solid var(--br2); padding-left: 32px;
+      min-width: 220px;
+    }
+    .proj-meta-item { display: flex; flex-direction: column; gap: 3px; }
+    .proj-meta-label {
+      font-family: var(--fm); font-size: 8px; color: var(--g500);
+      letter-spacing: .2em; text-transform: uppercase;
+    }
+    .proj-meta-value { font-size: 14px; color: var(--white); font-weight: 500; }
+
+    /* Sections */
+    .proj-section {
+      padding: clamp(48px,6vw,80px) var(--section-px);
+      border-top: 1px solid var(--br2); width: 100%;
+    }
+    .proj-section.dark  { background: var(--black); }
+    .proj-section.light { background: var(--ow); }
+    .proj-section.mid   { background: var(--s1); }
+    .proj-section__eyebrow {
+      font-family: var(--fm); font-size: 9px; color: var(--pink);
+      letter-spacing: .2em; text-transform: uppercase; margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .proj-section__eyebrow::before { content:''; width:20px; height:1px; background:var(--pink); }
+    .proj-section__h2 {
+      font-family: var(--fd); font-weight: 700;
+      font-size: clamp(24px,3vw,40px); letter-spacing: -.02em;
+      line-height: 1.08; margin-bottom: 20px;
+    }
+    .proj-section__h2 em { font-style: normal; color: var(--pink); }
+    .proj-section__body {
+      font-size: 15px; color: var(--g300); line-height: 1.85;
+      max-width: 680px; margin-bottom: 32px;
+    }
+    .proj-section__body.dark-text { color: var(--g700); }
+
+    /* Two-col layout */
+    .proj-two-col {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(32px,5vw,64px); align-items: start;
+    }
+
+    /* Result stats */
+    .proj-results {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 32px;
+    }
+    .proj-result-item {
+      padding: 28px 24px; background: var(--s1); border: 1px solid var(--br2);
+    }
+    .proj-result-num {
+      font-family: var(--fd); font-weight: 700;
+      font-size: clamp(28px,4vw,48px); color: var(--pink);
+      line-height: 1; letter-spacing: -.02em; margin-bottom: 6px;
+    }
+    .proj-result-lbl {
+      font-family: var(--fm); font-size: 10px; color: var(--g500);
+      letter-spacing: .1em; text-transform: uppercase; line-height: 1.4;
+    }
+
+    /* Gallery */
+    .proj-gallery {
+      display: grid; grid-template-columns: repeat(2,1fr); gap: 2px;
+      margin-top: 32px;
+    }
+    .proj-gallery--3 { grid-template-columns: repeat(3,1fr); }
+    .proj-gallery__item {
+      aspect-ratio: 16/10; background: var(--s2); overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .proj-gallery__item img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s var(--ease); }
+    .proj-gallery__item:hover img { transform: scale(1.03); }
+    .proj-gallery__placeholder {
+      font-family: var(--fm); font-size: 9px; color: var(--g500);
+      letter-spacing: .12em; text-transform: uppercase;
+    }
+    .proj-gallery__item.wide { grid-column: span 2; }
+
+    /* Tags */
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 24px; }
+    .proj-tag {
+      font-family: var(--fm); font-size: 9px; padding: 5px 12px;
+      border: 1px solid var(--br2); color: var(--g500); letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .proj-tag.pink { border-color: var(--pink-bd); color: var(--pink); background: var(--pink-tn); }
+
+    /* Footer CTA */
+    .proj-footer-cta {
+      padding: clamp(60px,8vw,100px) var(--section-px);
+      background: var(--black); text-align: center; position: relative; overflow: hidden;
+      border-top: 1px solid var(--br2); width: 100%;
+    }
+    .proj-footer-cta::before {
+      content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:500px; height:250px;
+      background:radial-gradient(ellipse,var(--pink-gl),transparent 65%); pointer-events:none;
+    }
+    .proj-footer-cta__prev-next {
+      display: flex; justify-content: center; gap: 16px;
+      margin-bottom: 40px; flex-wrap: wrap;
+    }
+    .proj-prev-next-btn {
+      display: flex; align-items: center; gap: 10px; padding: 12px 24px;
+      border: 1px solid var(--br2); color: var(--g300); font-family: var(--fm);
+      font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+      text-decoration: none; transition: border-color var(--dur), color var(--dur);
+      background: transparent; cursor: pointer;
+    }
+    .proj-prev-next-btn:hover { border-color: var(--pink-bd); color: var(--pink); }
+
+    /* Back to work button */
+    .proj-back-work {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--fm); font-size: 10px; color: var(--g500);
+      letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
+      transition: color var(--dur); cursor: pointer;
+    }
+    .proj-back-work:hover { color: var(--pink); }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .proj-results { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .proj-hero__meta { grid-template-columns: 1fr; gap: 32px; }
+      .proj-meta-grid { border-left: none; padding-left: 0; border-top: 1px solid var(--br2); padding-top: 24px; flex-direction: row; flex-wrap: wrap; gap: 24px; }
+      .proj-two-col { grid-template-columns: 1fr; }
+      .proj-gallery { grid-template-columns: 1fr; }
+      .proj-gallery--3 { grid-template-columns: 1fr; }
+      .proj-gallery__item.wide { grid-column: span 1; }
+      .proj-results { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ── Project Nav ────────────────────────────────────────── -->
+<nav class="proj-nav" role="navigation" aria-label="Project navigation">
+  <div class="proj-nav__inner">
+    <a class="proj-nav__logo" href="../../index.html">
+      <span class="logo-dot"></span>KYBERIA TECH
+    </a>
+    <a class="proj-nav__back" href="../../index.html#work">← Back to Work</a>
+  </div>
+</nav>
+
+<!-- ── Hero ──────────────────────────────────────────────── -->
+<section class="proj-hero" aria-label="Project overview">
+
+  <!-- Cover Image — replace placeholder with <img> tag -->
+  <div class="proj-hero__cover">
+    <!-- <img src="../img/projects/[project-slug]/cover.jpg" alt="[PROJECT NAME] cover image"> -->
+    <div class="proj-hero__cover-placeholder">[PROJECT NAME] — Cover Image</div>
+  </div>
+
+  <div class="proj-hero__meta">
+    <div>
+      <div class="proj-hero__eyebrow">[SERVICE CATEGORY]</div>
+      <!-- Example: Branding & Strategy · Graphic Design · Web & Technology -->
+      <h1 class="proj-hero__title">[CLIENT NAME]<br><em>[Tagline or outcome]</em></h1>
+      <p class="proj-hero__summary">[Two to three sentences summarising the project, what was done, and why it matters.]</p>
+      <div class="proj-tags">
+        <span class="proj-tag pink">[Service 01]</span>
+        <span class="proj-tag">[Industry]</span>
+        <span class="proj-tag">[Country / Market]</span>
+        <span class="proj-tag">[Year]</span>
+      </div>
+    </div>
+    <div class="proj-meta-grid">
+      <div class="proj-meta-item">
+        <span class="proj-meta-label">Client</span>
+        <span class="proj-meta-value">[Client Name]</span>
+      </div>
+      <div class="proj-meta-item">
+        <span class="proj-meta-label">Industry</span>
+        <span class="proj-meta-value">[Industry / Sector]</span>
+      </div>
+      <div class="proj-meta-item">
+        <span class="proj-meta-label">Location</span>
+        <span class="proj-meta-value">[City, Country]</span>
+      </div>
+      <div class="proj-meta-item">
+        <span class="proj-meta-label">Year</span>
+        <span class="proj-meta-value">[YYYY]</span>
+      </div>
+      <div class="proj-meta-item">
+        <span class="proj-meta-label">Services</span>
+        <span class="proj-meta-value">[Service 1, Service 2]</span>
+      </div>
+      <div class="proj-meta-item">
+        <span class="proj-meta-label">Duration</span>
+        <span class="proj-meta-value">[X weeks / months]</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 01 — Challenge / Brief ───────────────────── -->
+<section class="proj-section mid" aria-label="Project challenge">
+  <div class="proj-section__eyebrow">The Challenge</div>
+  <div class="proj-two-col">
+    <div>
+      <h2 class="proj-section__h2">What was the<br><em>problem to solve?</em></h2>
+    </div>
+    <div>
+      <p class="proj-section__body">[Describe the client's situation, the problem they faced, and what they needed. Be specific. Avoid vague generalisations — explain the real business challenge.]</p>
+      <p class="proj-section__body">[Second paragraph if needed. What constraints existed? What had they tried before? What was at stake?]</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 02 — Approach / Solution ─────────────────── -->
+<section class="proj-section dark" aria-label="Project solution">
+  <div class="proj-section__eyebrow">The Approach</div>
+  <h2 class="proj-section__h2">How we<br><em>solved it.</em></h2>
+  <p class="proj-section__body">[Describe how Kyberia Tech approached this project. What phases did the work go through? What decisions were made and why?]</p>
+  <div class="deliverables-grid">
+    <!-- Repeat and update these del-item blocks for each phase / deliverable -->
+    <div class="del-item">
+      <div class="del-num">Phase 01</div>
+      <div class="del-title">[Phase name]</div>
+      <p class="del-desc">[What was done in this phase. Be specific about the output.]</p>
+    </div>
+    <div class="del-item">
+      <div class="del-num">Phase 02</div>
+      <div class="del-title">[Phase name]</div>
+      <p class="del-desc">[What was done in this phase.]</p>
+    </div>
+    <div class="del-item">
+      <div class="del-num">Phase 03</div>
+      <div class="del-title">[Phase name]</div>
+      <p class="del-desc">[What was done in this phase.]</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 03 — Gallery (primary visuals) ───────────── -->
+<section class="proj-section mid" aria-label="Project gallery">
+  <div class="proj-section__eyebrow">Visual Output</div>
+  <h2 class="proj-section__h2">The work,<br><em>in detail.</em></h2>
+  <div class="proj-gallery">
+    <!-- Wide image (full row) -->
+    <div class="proj-gallery__item wide">
+      <!-- <img src="../img/projects/[slug]/01.jpg" alt="[Description]"> -->
+      <div class="proj-gallery__placeholder">Image 01 — [Description]</div>
+    </div>
+    <!-- Two-column images -->
+    <div class="proj-gallery__item">
+      <!-- <img src="../img/projects/[slug]/02.jpg" alt="[Description]"> -->
+      <div class="proj-gallery__placeholder">Image 02 — [Description]</div>
+    </div>
+    <div class="proj-gallery__item">
+      <!-- <img src="../img/projects/[slug]/03.jpg" alt="[Description]"> -->
+      <div class="proj-gallery__placeholder">Image 03 — [Description]</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 04 — Results / Outcomes ──────────────────── -->
+<section class="proj-section dark" aria-label="Project results">
+  <div class="proj-section__eyebrow">The Outcome</div>
+  <h2 class="proj-section__h2">What was<br><em>delivered.</em></h2>
+  <p class="proj-section__body">[Describe the outcome. What did the client receive? What changed for their business? Use specific details where possible.]</p>
+  <div class="proj-results">
+    <div class="proj-result-item">
+      <div class="proj-result-num">[00]</div>
+      <div class="proj-result-lbl">[Result label — e.g. Deliverables completed]</div>
+    </div>
+    <div class="proj-result-item">
+      <div class="proj-result-num">[00]</div>
+      <div class="proj-result-lbl">[Result label — e.g. Weeks to delivery]</div>
+    </div>
+    <div class="proj-result-item">
+      <div class="proj-result-num">[00]</div>
+      <div class="proj-result-lbl">[Result label — e.g. Screens designed]</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 05 — Secondary gallery ───────────────────── -->
+<section class="proj-section mid" aria-label="Additional visuals">
+  <div class="proj-gallery proj-gallery--3">
+    <div class="proj-gallery__item">
+      <!-- <img src="../img/projects/[slug]/04.jpg" alt="[Description]"> -->
+      <div class="proj-gallery__placeholder">Image 04</div>
+    </div>
+    <div class="proj-gallery__item">
+      <!-- <img src="../img/projects/[slug]/05.jpg" alt="[Description]"> -->
+      <div class="proj-gallery__placeholder">Image 05</div>
+    </div>
+    <div class="proj-gallery__item">
+      <!-- <img src="../img/projects/[slug]/06.jpg" alt="[Description]"> -->
+      <div class="proj-gallery__placeholder">Image 06</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 06 — Client Quote (optional) ─────────────── -->
+<!--
+<section class="proj-section dark" aria-label="Client testimonial">
+  <blockquote style="font-family:var(--fd);font-size:clamp(20px,2.5vw,30px);font-weight:500;letter-spacing:-.01em;line-height:1.4;color:var(--white);max-width:720px;border-left:3px solid var(--pink);padding-left:28px;">
+    "[Client quote here — direct and specific. Avoid generic praise. Use real words.]"
+  </blockquote>
+  <div style="margin-top:20px;padding-left:31px;">
+    <div style="font-family:var(--fd);font-size:14px;font-weight:600;">[Client Name]</div>
+    <div style="font-family:var(--fm);font-size:10px;color:var(--g500);letter-spacing:.1em;text-transform:uppercase;margin-top:3px;">[Title] · [Company]</div>
+  </div>
+</section>
+-->
+
+<!-- ── Footer CTA ────────────────────────────────────────── -->
+<section class="proj-footer-cta" aria-label="Next steps">
+  <div class="proj-footer-cta__prev-next">
+    <!-- Optional: update hrefs to previous/next project pages -->
+    <a class="proj-prev-next-btn" href="#">← Previous Project</a>
+    <a class="proj-prev-next-btn" href="#">Next Project →</a>
+  </div>
+  <div class="cta-label" style="justify-content:center;">Start a Project</div>
+  <h2 class="cta-h2" style="position:relative;">Ready to build<br>something that <em>lasts?</em></h2>
+  <p class="cta-sub">Tell us about your project. We respond within 24 hours.</p>
+  <a href="mailto:hello@kyberia.tech" class="btn-primary" style="margin:0 auto 32px;display:inline-flex;">Start a Project →</a>
+  <br>
+  <a class="proj-back-work" href="../../index.html#work">← Back to all work</a>
+</section>
+
+<!-- ── Footer ────────────────────────────────────────────── -->
+<footer class="kt-footer" role="contentinfo">
+  <div class="kt-footer__inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <strong>KYBERIA TECH</strong>
+        <p>Create. Design. Innovate.<br>Cairo, Egypt · Global since 2018.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="../../index.html">Branding &amp; Strategy</a></li>
+          <li><a href="../../index.html">Graphic Design</a></li>
+          <li><a href="../../index.html">Web &amp; Technology</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Studio</div>
+        <ul class="footer-links">
+          <li><a href="../../index.html">About</a></li>
+          <li><a href="../../index.html#work">Work</a></li>
+          <li><a href="../../index.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Connect</div>
+        <ul class="footer-links">
+          <li><a href="https://linkedin.com/company/kyberiatech" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="mailto:hello@kyberia.tech">hello@kyberia.tech</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Kyberia Tech · All rights reserved</div>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ── BTT ───────────────────────────────────────────────── -->
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M18 15l-6-6-6 6"/>
+  </svg>
+</button>
+
+<script>
+  // BTT
+  const btt = document.getElementById('btt');
+  if (btt) {
+    window.addEventListener('scroll', () => {
+      btt.classList.toggle('visible', window.scrollY > 400);
+    }, { passive: true });
+  }
+  // Theme restore
+  try {
+    if (localStorage.getItem('kt-theme') === 'light') document.body.classList.add('light-mode');
+  } catch(e) {}
+</script>
+
+</body>
+</html>
