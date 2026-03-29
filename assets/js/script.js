@@ -1,115 +1,121 @@
-/* ═══════════════════════ PAGE NAVIGATION ═══════════════════════ */
+/* ═══════════════════════════════════════════════════════════
+   KYBERIA TECH — script.js
+   Fixed: page nav IDs, lang switcher, apps menu, setLang(),
+          shared closeAllDropdowns(), btt null guard.
+   ═══════════════════════════════════════════════════════════ */
+ 
+ 
+/* ─── PAGE NAVIGATION ───────────────────────────────────────
+   FIX: removed the erroneous 'page-' prefix.
+   HTML IDs are: #home #about #services #work #contact
+   ──────────────────────────────────────────────────────────── */
 function showPage(id) {
+  // Hide all pages, deactivate all nav links
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.sb-lnk').forEach(l => l.classList.remove('active'));
-  const pg = document.getElementById('page-' + id);
+ 
+  // Show the target page
+  const pg = document.getElementById(id);
   if (pg) pg.classList.add('active');
+ 
+  // Activate the matching nav link
   document.querySelectorAll('.sb-lnk').forEach(l => {
-    if (l.getAttribute('onclick') && l.getAttribute('onclick').includes("'" + id + "'")) {
-      l.classList.add('active');
-    }
+    const handler = l.getAttribute('onclick') || '';
+    if (handler.includes("'" + id + "'")) l.classList.add('active');
   });
+ 
   window.scrollTo(0, 0);
 }
-
-/* ═══════════════════════ THEME TOGGLE ═══════════════════════ */
+ 
+ 
+/* ─── THEME TOGGLE ──────────────────────────────────────────
+   Toggles body.light-mode; persists to localStorage.
+   ──────────────────────────────────────────────────────────── */
 function toggleTheme() {
   document.body.classList.toggle('light-mode');
-  try { localStorage.setItem('kt-theme', document.body.classList.contains('light-mode') ? 'light' : 'dark'); } catch (e) { }
+  try {
+    localStorage.setItem('kt-theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+  } catch (e) {}
 }
+ 
+// Restore saved theme on load
 try {
   if (localStorage.getItem('kt-theme') === 'light') document.body.classList.add('light-mode');
-} catch (e) { }
-
-/* ═══════════════════════ LANGUAGE SWITCHER ═══════════════════════ */
-const langs = [
-  { code: 'EN', label: '🇬🇧 English', dir: 'ltr' },
-  { code: 'AR', label: '🇸🇦 العربية', dir: 'rtl' },
-  { code: 'DE', label: '🇩🇪 Deutsch', dir: 'ltr' },
-  { code: 'JA', label: '🇯🇵 日本語', dir: 'ltr' },
-  { code: 'KO', label: '🇰🇷 한국어', dir: 'ltr' }
-];
-let langOpen = false;
-
+} catch (e) {}
+ 
+ 
+/* ─── SHARED DROPDOWN UTILITY ───────────────────────────────
+   Closes every open nav dropdown.  Call before opening one.
+   ──────────────────────────────────────────────────────────── */
+function closeAllDropdowns() {
+  document.querySelectorAll('.nav-lang.open, .nav-apps.open').forEach(el => el.classList.remove('open'));
+}
+ 
+ 
+/* ─── LANGUAGE SWITCHER ─────────────────────────────────────
+   FIX: uses the existing .nav-lang-dropdown + .open CSS class
+   instead of dynamically injecting a second dropdown element.
+   ──────────────────────────────────────────────────────────── */
 function toggleLang() {
-  langOpen = !langOpen;
-  document.querySelectorAll('.nav-lang').forEach(el => {
-    let dropdown = el.querySelector('.lang-dropdown');
-    if (!dropdown) {
-      dropdown = document.createElement('div');
-      dropdown.className = 'lang-dropdown';
-      dropdown.style.cssText = 'position:absolute;top:calc(100% + 8px);right:0;background:#111;border:1px solid rgba(255,255,255,.1);min-width:160px;z-index:500;';
-      langs.forEach(lang => {
-        const item = document.createElement('div');
-        item.className = 'nav-apps-item';
-        item.textContent = lang.label;
-        item.onclick = (e) => {
-          e.stopPropagation();
-          document.querySelectorAll('.nav-lang span:not(.nav-lang-arrow)').forEach(s => s.textContent = lang.code);
-          document.documentElement.dir = lang.dir;
-          langOpen = false;
-          document.querySelectorAll('.lang-dropdown').forEach(d => d.style.display = 'none');
-        };
-        dropdown.appendChild(item);
-      });
-      el.style.position = 'relative';
-      el.appendChild(dropdown);
-    }
-    dropdown.style.display = langOpen ? 'block' : 'none';
-  });
-  if (langOpen) { appsOpen = false; document.querySelectorAll('.apps-dropdown').forEach(d => d.style.display = 'none'); }
+  const navLang = document.getElementById('navLang');
+  if (!navLang) return;
+ 
+  const isOpen = navLang.classList.contains('open');
+  closeAllDropdowns();
+  if (!isOpen) navLang.classList.add('open');
 }
-
-/* ═══════════════════════ APPS MENU ═══════════════════════ */
-let appsOpen = false;
-const appsItems = [
-  { icon: '⚗', name: 'Kyberia Labs', desc: 'Experiments & R&D' },
-  { icon: '◈', name: 'Kyberia Studio', desc: 'Creative Production' },
-  { icon: '✦', name: 'Kyberia Blog', desc: 'Ideas & Insights' }
-];
-
+ 
+/* FIX: setLang() was called from HTML but never defined in JS.
+   Updates the visible label, flips RTL for Arabic, marks active option. */
+function setLang(code, flagEl) {
+  const label = document.getElementById('langLabel');
+  if (label) label.textContent = code;
+ 
+  // RTL support: Arabic only
+  document.documentElement.dir = (code === 'AR') ? 'rtl' : 'ltr';
+ 
+  // Mark the selected option
+  document.querySelectorAll('.nav-lang-opt').forEach(o => o.classList.remove('active'));
+  const clicked = (typeof flagEl === 'object' && flagEl instanceof Element)
+    ? flagEl
+    : event?.target?.closest('.nav-lang-opt');
+  if (clicked) clicked.classList.add('active');
+ 
+  closeAllDropdowns();
+}
+ 
+ 
+/* ─── APPS / ECOSYSTEM MENU ─────────────────────────────────
+   FIX: uses the existing .nav-apps-dropdown + .open CSS class
+   instead of dynamically creating a second dropdown element.
+   ──────────────────────────────────────────────────────────── */
 function toggleApps() {
-  appsOpen = !appsOpen;
-  document.querySelectorAll('.nav-apps').forEach(el => {
-    let dropdown = el.querySelector('.apps-dropdown');
-    if (!dropdown) {
-      dropdown = document.createElement('div');
-      dropdown.className = 'apps-dropdown';
-      dropdown.style.cssText = 'position:absolute;top:calc(100% + 8px);right:0;background:#111;border:1px solid rgba(255,255,255,.1);min-width:220px;z-index:500;';
-      const header = document.createElement('div');
-      header.style.cssText = 'padding:10px 16px;font-size:9px;color:#666;letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.07);';
-      header.textContent = 'Kyberia Ecosystem';
-      dropdown.appendChild(header);
-      appsItems.forEach(item => {
-        const row = document.createElement('div');
-        row.className = 'nav-apps-item';
-        row.style.cssText = 'display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;';
-        row.innerHTML = '<span style="font-size:14px;">' + item.icon + '</span><span><strong style="display:block;font-size:12px;">' + item.name + '</strong><span style="font-size:10px;color:#666;">' + item.desc + '</span></span>';
-        dropdown.appendChild(row);
-      });
-      const footer = document.createElement('div');
-      footer.style.cssText = 'padding:8px 16px;font-size:9px;color:#444;border-top:1px solid rgba(255,255,255,.07);';
-      footer.textContent = 'Part of Peridot Holding';
-      dropdown.appendChild(footer);
-      el.style.position = 'relative';
-      el.appendChild(dropdown);
-    }
-    dropdown.style.display = appsOpen ? 'block' : 'none';
-    const btn = el.querySelector('.nav-apps-btn');
-    if (btn) btn.style.color = appsOpen ? '#FF2F92' : '';
-  });
-  if (appsOpen) { langOpen = false; document.querySelectorAll('.lang-dropdown').forEach(d => d.style.display = 'none'); }
+  const navApps = document.getElementById('navApps');
+  if (!navApps) return;
+ 
+  const isOpen = navApps.classList.contains('open');
+  closeAllDropdowns();
+  if (!isOpen) navApps.classList.add('open');
 }
-
-/* Close dropdowns on outside click */
+ 
+ 
+/* ─── CLOSE ON OUTSIDE CLICK ────────────────────────────────
+   Clicking anywhere outside .nav-lang or .nav-apps closes both.
+   ──────────────────────────────────────────────────────────── */
 document.addEventListener('click', function (e) {
   if (!e.target.closest('.nav-lang') && !e.target.closest('.nav-apps')) {
-    langOpen = false; appsOpen = false;
-    document.querySelectorAll('.lang-dropdown, .apps-dropdown').forEach(d => d.style.display = 'none');
+    closeAllDropdowns();
   }
 });
-
+ 
+ 
+/* ─── BACK TO TOP ───────────────────────────────────────────
+   FIX: null guard — won't throw on pages that don't have #btt.
+   ──────────────────────────────────────────────────────────── */
 const btt = document.getElementById('btt');
-window.addEventListener('scroll', () => {
-  btt.classList.toggle('visible', window.scrollY > 400);
-});
+if (btt) {
+  window.addEventListener('scroll', () => {
+    btt.classList.toggle('visible', window.scrollY > 400);
+  });
+}
+ 
