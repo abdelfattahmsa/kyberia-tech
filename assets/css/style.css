@@ -1123,7 +1123,7 @@ body::before {
 .wf-footer {
   background: var(--nb);
   border-top: 1px solid var(--br2);
-  /*padding: 48px 48px 32px;*/
+  padding: 48px 48px 32px;
 }
 
 .footer-grid {
@@ -1848,8 +1848,8 @@ body::before {
   .wf-measure,
   .wf-progress,
   .pg-chrome {
-    /*padding-left: 20px;
-    padding-right: 20px;*/
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .services-grid,
