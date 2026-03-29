@@ -199,7 +199,7 @@ body::before {
 
 .sb-lnk.active {
   color: var(--white);
-  border-left-color: var(--pink);
+  border-bottom-color: var(--pink);
   background: var(--pink-tn);
 }
 
