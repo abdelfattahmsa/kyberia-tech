@@ -1123,7 +1123,7 @@ body::before {
 .wf-footer {
   background: var(--nb);
   border-top: 1px solid var(--br2);
-  /*padding: 48px 48px 32px;*/
+  padding: 48px 48px 32px;
 }
 
 .footer-grid {
