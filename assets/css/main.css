@@ -236,13 +236,25 @@ body.nav-open .kt-nav__hamburger span:nth-child(2) { opacity: 0; transform: scal
 body.nav-open .kt-nav__hamburger span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
 
 /* ── 5. MOBILE MENU ─────────────────────────────────────────────── */
+/*
+   FIX: display:none blocks CSS transitions entirely — the slide animation
+   never plays. We keep display:flex always (position:fixed = no layout impact)
+   and hide/show via visibility + opacity + transform instead.
+*/
 .kt-mobile-menu {
-  display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0;
+  display: flex;
+  position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0;
   background: var(--nb); z-index: 490; overflow-y: auto; flex-direction: column;
-  border-top: 1px solid var(--br); transform: translateX(100%); opacity: 0;
-  transition: opacity .28s var(--ease), transform .28s var(--ease); pointer-events: none;
+  border-top: 1px solid var(--br);
+  transform: translateX(100%); opacity: 0; visibility: hidden;
+  transition: opacity .3s var(--ease), transform .3s var(--ease), visibility 0s linear .3s;
+  pointer-events: none;
 }
-body.nav-open .kt-mobile-menu { display: flex; opacity: 1; transform: translateX(0); pointer-events: all; }
+body.nav-open .kt-mobile-menu {
+  transform: translateX(0); opacity: 1; visibility: visible;
+  transition: opacity .3s var(--ease), transform .3s var(--ease), visibility 0s linear 0s;
+  pointer-events: all;
+}
 
 .mobile-nav-section { padding: 12px 0; border-bottom: 1px solid var(--br); }
 .mobile-nav-link {
