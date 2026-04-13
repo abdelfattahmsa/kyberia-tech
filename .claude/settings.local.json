@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nslookup -type=ANY kyberia.tech)",
+      "Bash(nslookup -type=TXT kyberia.tech)",
+      "Bash(nslookup -type=MX kyberia.tech)",
+      "Bash(nslookup -type=NS kyberia.tech)",
+      "Bash(nslookup -type=CNAME www.kyberia.tech)",
+      "Bash(nslookup -type=A kyberia.tech)",
+      "Bash(nslookup -type=A labs.kyberia.tech)",
+      "Bash(nslookup -type=A studio.kyberia.tech)",
+      "Bash(nslookup -type=A blog.kyberia.tech)",
+      "Bash(nslookup -type=TXT _dmarc.kyberia.tech)",
+      "Bash(nslookup -type=TXT protonmail._domainkey.kyberia.tech 8.8.8.8)",
+      "Bash(nslookup -type=TXT protonmail2._domainkey.kyberia.tech 8.8.8.8)",
+      "Bash(nslookup -type=TXT protonmail3._domainkey.kyberia.tech 8.8.8.8)"
+    ]
+  }
+}

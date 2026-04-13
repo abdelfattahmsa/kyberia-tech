@@ -13,11 +13,9 @@
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&family=Spline+Sans+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <!-- Clerk SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" crossorigin="anonymous"></script>
-
-  <!-- Clerk config (set window.KYBERIA_CLERK_KEY) -->
-  <script src="../assets/js/clerk-config.js"></script>
+  <!-- Clerk SDK (custom domain) -->
+  <script defer crossorigin="anonymous" src="https://clerk.kyberia.tech/npm/@clerk/ui@1/dist/ui.browser.js" type="text/javascript"></script>
+  <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_live_Y2xlcmsua3liZXJpYS50ZWNoJA" src="https://clerk.kyberia.tech/npm/@clerk/clerk-js@6/dist/clerk.browser.js" type="text/javascript"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -165,51 +163,36 @@
 </main>
 
 <script>
-(async () => {
-  const PUBLISHABLE_KEY = window.KYBERIA_CLERK_KEY;
-
-  if (!PUBLISHABLE_KEY || PUBLISHABLE_KEY.startsWith('YOUR_')) {
-    document.getElementById('clerk-mount').innerHTML =
-      '<div class="auth-error">Clerk is not configured.<br>Set your publishable key in assets/js/clerk-config.js</div>';
-    return;
-  }
-
-  if (!window.Clerk) {
-    document.getElementById('clerk-mount').innerHTML =
-      '<div class="auth-error">Failed to load Clerk SDK. Check your connection.</div>';
-    return;
-  }
-
-  const clerk = new window.Clerk(PUBLISHABLE_KEY);
-
-  await clerk.load({
-    appearance: {
-      variables: {
-        colorPrimary:        '#FF2F92',
-        colorBackground:     '#111111',
-        colorText:           '#FFFFFF',
-        colorTextSecondary:  '#AAAAAA',
-        colorInputBackground:'#181818',
-        colorInputText:      '#FFFFFF',
-        colorNeutral:        '#AAAAAA',
-        borderRadius:        '0px',
-        fontFamily:          "'Satoshi', system-ui, sans-serif",
-        fontFamilyButtons:   "'Spline Sans', system-ui, sans-serif",
-        fontSize:            '14px',
-      }
-    }
-  });
+document.addEventListener('clerk:loaded', function () {
+  const clerk = window.Clerk;
+  const mount = document.getElementById('clerk-mount');
 
   if (clerk.user) {
     window.location.replace('/');
     return;
   }
 
-  clerk.mountSignIn(document.getElementById('clerk-mount'), {
+  mount.innerHTML = '';
+  clerk.mountSignIn(mount, {
+    appearance: {
+      variables: {
+        colorPrimary:         '#FF2F92',
+        colorBackground:      '#111111',
+        colorText:            '#FFFFFF',
+        colorTextSecondary:   '#AAAAAA',
+        colorInputBackground: '#181818',
+        colorInputText:       '#FFFFFF',
+        colorNeutral:         '#AAAAAA',
+        borderRadius:         '0px',
+        fontFamily:           "'Satoshi', system-ui, sans-serif",
+        fontFamilyButtons:    "'Spline Sans', system-ui, sans-serif",
+        fontSize:             '14px',
+      }
+    },
     afterSignInUrl: '/',
     signUpUrl: '/sign-up',
   });
-})();
+});
 </script>
 
 </body>

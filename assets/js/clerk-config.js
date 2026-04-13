@@ -1,7 +1,6 @@
 /* ================================================================
    KYBERIA TECH — Clerk Configuration
-   Replace the value below with your Clerk Publishable Key.
-   Find it at: https://dashboard.clerk.com → Your App → API Keys
-   The publishable key starts with pk_test_ or pk_live_
+   The publishable key and SDK are now loaded directly via the
+   custom Clerk domain (clerk.kyberia.tech) script tags in each
+   HTML file. This file is no longer active.
    ================================================================ */
-window.KYBERIA_CLERK_KEY = 'YOUR_CLERK_PUBLISHABLE_KEY';
