@@ -56,7 +56,7 @@
 
     body::before {
       content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
     }
 
     /* ── Nav ── */
@@ -163,36 +163,44 @@
 </main>
 
 <script>
-document.addEventListener('clerk:loaded', function () {
-  const clerk = window.Clerk;
-  const mount = document.getElementById('clerk-mount');
+(function () {
+  var appearance = {
+    variables: {
+      colorPrimary:         '#FF2F92',
+      colorBackground:      '#111111',
+      colorText:            '#FFFFFF',
+      colorTextSecondary:   '#AAAAAA',
+      colorInputBackground: '#181818',
+      colorInputText:       '#FFFFFF',
+      colorNeutral:         '#AAAAAA',
+      borderRadius:         '0px',
+      fontFamily:           "'Satoshi', system-ui, sans-serif",
+      fontFamilyButtons:    "'Spline Sans', system-ui, sans-serif",
+      fontSize:             '14px',
+    }
+  };
 
-  if (clerk.user) {
-    window.location.replace('/');
-    return;
+  function mountClerk() {
+    var clerk = window.Clerk;
+    if (!clerk) return;
+
+    if (clerk.user) {
+      window.location.replace('/');
+      return;
+    }
+
+    var mount = document.getElementById('clerk-mount');
+    mount.innerHTML = '';
+    clerk.mountSignUp(mount, {
+      appearance: appearance,
+      fallbackRedirectUrl: '/',
+      signInUrl: '/sign-in',
+    });
   }
 
-  mount.innerHTML = '';
-  clerk.mountSignUp(mount, {
-    appearance: {
-      variables: {
-        colorPrimary:         '#FF2F92',
-        colorBackground:      '#111111',
-        colorText:            '#FFFFFF',
-        colorTextSecondary:   '#AAAAAA',
-        colorInputBackground: '#181818',
-        colorInputText:       '#FFFFFF',
-        colorNeutral:         '#AAAAAA',
-        borderRadius:         '0px',
-        fontFamily:           "'Satoshi', system-ui, sans-serif",
-        fontFamilyButtons:    "'Spline Sans', system-ui, sans-serif",
-        fontSize:             '14px',
-      }
-    },
-    afterSignUpUrl: '/',
-    signInUrl: '/sign-in',
-  });
-});
+  window.addEventListener('load', mountClerk);
+  document.addEventListener('clerk:loaded', mountClerk, { once: true });
+})();
 </script>
 
 </body>

@@ -218,13 +218,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ── CLERK AUTH ─────────────────────────────────────────────────── */
 (function () {
-  const area = document.getElementById('kt-auth-area');
-  if (!area) return;
+  var desktopArea   = document.getElementById('kt-auth-area');
+  var mobileArea    = document.getElementById('kt-mobile-auth-area');
+  var initialized   = false;
 
-  // Show sign-in link immediately while Clerk loads (avoids layout shift)
-  area.innerHTML = '<a class="nav-signin-btn" href="/sign-in">Sign In</a>';
+  // Show sign-in links immediately — replaced once Clerk loads
+  var signinLink = '<a class="nav-signin-btn" href="/sign-in">Sign In</a>';
+  if (desktopArea) desktopArea.innerHTML = signinLink;
+  if (mobileArea)  mobileArea.innerHTML  = '<a class="mobile-signin-btn" href="/sign-in">Sign In</a>';
 
-  const clerkAppearance = {
+  var clerkAppearance = {
     variables: {
       colorPrimary:         '#FF2F92',
       colorBackground:      '#111111',
@@ -241,18 +244,35 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   function renderAuth() {
-    const clerk = window.Clerk;
+    var clerk = window.Clerk;
     if (!clerk) return;
-    area.innerHTML = '';
+
     if (clerk.user) {
-      clerk.mountUserButton(area, { appearance: clerkAppearance, afterSignOutUrl: '/' });
+      // Signed in — show UserButton on desktop, name on mobile
+      if (desktopArea) {
+        desktopArea.innerHTML = '';
+        clerk.mountUserButton(desktopArea, { appearance: clerkAppearance, afterSignOutUrl: '/' });
+      }
+      if (mobileArea) {
+        mobileArea.innerHTML = '<a class="mobile-signin-btn mobile-signin-btn--out" href="#" onclick="window.Clerk&&window.Clerk.signOut({redirectUrl:\'/\'});return false;">Sign Out</a>';
+      }
     } else {
-      area.innerHTML = '<a class="nav-signin-btn" href="/sign-in">Sign In</a>';
+      // Signed out
+      if (desktopArea) desktopArea.innerHTML = signinLink;
+      if (mobileArea)  mobileArea.innerHTML  = '<a class="mobile-signin-btn" href="/sign-in">Sign In</a>';
     }
   }
 
-  document.addEventListener('clerk:loaded', function () {
+  function initClerk() {
+    if (initialized) return;
+    var clerk = window.Clerk;
+    if (!clerk) return;
+    initialized = true;
     renderAuth();
-    window.Clerk.addListener(renderAuth);
-  });
+    clerk.addListener(renderAuth);
+  }
+
+  // defer scripts run before window.load — both triggers for safety
+  window.addEventListener('load', initClerk);
+  document.addEventListener('clerk:loaded', initClerk, { once: true });
 })();

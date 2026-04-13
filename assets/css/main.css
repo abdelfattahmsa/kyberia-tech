@@ -330,7 +330,18 @@ body.nav-open .kt-mobile-menu {
 }
 .mobile-theme-toggle:hover { border-color: var(--pink); color: var(--pink); }
 
-.mobile-cta-section { padding: 20px var(--section-px); }
+.mobile-cta-section { padding: 20px var(--section-px); display: flex; flex-direction: column; gap: 10px; }
+.mobile-signin-btn {
+  display: block; width: 100%; text-align: center; padding: 13px 24px;
+  background: transparent; color: var(--g300); font-family: var(--fm);
+  font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  border: 1px solid var(--br2); text-decoration: none; cursor: pointer;
+  transition: color var(--dur), border-color var(--dur), background var(--dur);
+}
+.mobile-signin-btn:hover { color: var(--white); border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.04); }
+.mobile-signin-btn--out { color: var(--g500); }
+.mobile-signin-btn--out:hover { color: var(--pink); border-color: var(--pink-bd); background: var(--pink-tn); }
+
 .mobile-cta-btn {
   display: block; width: 100%; text-align: center; padding: 15px 24px;
   background: var(--pink); color: var(--white); font-family: var(--fd);
