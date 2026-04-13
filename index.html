@@ -25,6 +25,11 @@
 
   <!-- Stylesheet — single combined file -->
   <link rel="stylesheet" href="assets/css/main.css">
+
+  <!-- Clerk SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" crossorigin="anonymous"></script>
+  <!-- Clerk config — set window.KYBERIA_CLERK_KEY in this file -->
+  <script src="assets/js/clerk-config.js"></script>
 </head>
 
 <body>
@@ -152,6 +157,9 @@
           <div class="nav-apps-footer">Part of Peridot Holding</div>
         </div>
       </div>
+
+      <!-- Auth (sign-in link / user button — populated by Clerk) -->
+      <div class="kt-auth-area" id="kt-auth-area"></div>
 
       <!-- CTA -->
       <a class="kt-nav__cta" onclick="showPage('contact')" role="button" tabindex="0">Start a Project →</a>

@@ -211,6 +211,24 @@ body.light-mode .icon-moon { opacity: 1; transform: rotate(0); }
   font-family: var(--fm); font-size: 8px; color: var(--g500); letter-spacing: .08em; text-align: center;
 }
 
+/* Auth area */
+.kt-auth-area { display: flex; align-items: center; flex-shrink: 0; }
+
+.nav-signin-btn {
+  display: flex; align-items: center; gap: 5px; padding: 6px 12px;
+  font-family: var(--fm); font-size: 9.5px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--g300); text-decoration: none;
+  border: 1px solid var(--br2); background: transparent;
+  transition: color var(--dur), border-color var(--dur), background var(--dur);
+  white-space: nowrap; cursor: pointer;
+}
+.nav-signin-btn:hover { color: var(--white); border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.04); }
+
+/* Clerk UserButton overrides — match site palette */
+.kt-auth-area .cl-userButtonBox { gap: 0; }
+.kt-auth-area .cl-userButtonTrigger { padding: 4px; }
+.kt-auth-area .cl-avatarBox { width: 28px; height: 28px; border-radius: 0; border: 1px solid var(--br2); }
+
 /* CTA */
 .kt-nav__cta {
   padding: 9px 18px; background: var(--pink); color: var(--white) !important;

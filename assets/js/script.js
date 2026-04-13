@@ -215,3 +215,50 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSEO('home');
   }
 });
+
+/* ── CLERK AUTH ─────────────────────────────────────────────────── */
+(async () => {
+  const PUBLISHABLE_KEY = window.KYBERIA_CLERK_KEY;
+  const area = document.getElementById('kt-auth-area');
+  if (!area) return;
+
+  // Show sign-in link immediately while Clerk loads (avoids layout shift)
+  area.innerHTML = '<a class="nav-signin-btn" href="/sign-in">Sign In</a>';
+
+  if (!PUBLISHABLE_KEY || PUBLISHABLE_KEY.startsWith('YOUR_') || !window.Clerk) return;
+
+  try {
+    const clerk = new window.Clerk(PUBLISHABLE_KEY);
+    await clerk.load({
+      appearance: {
+        variables: {
+          colorPrimary:         '#FF2F92',
+          colorBackground:      '#111111',
+          colorText:            '#FFFFFF',
+          colorTextSecondary:   '#AAAAAA',
+          colorInputBackground: '#181818',
+          colorInputText:       '#FFFFFF',
+          colorNeutral:         '#AAAAAA',
+          borderRadius:         '0px',
+          fontFamily:           "'Satoshi', system-ui, sans-serif",
+          fontFamilyButtons:    "'Spline Sans', system-ui, sans-serif",
+          fontSize:             '14px',
+        }
+      }
+    });
+
+    function renderAuth() {
+      area.innerHTML = '';
+      if (clerk.user) {
+        clerk.mountUserButton(area, { afterSignOutUrl: '/' });
+      } else {
+        area.innerHTML = '<a class="nav-signin-btn" href="/sign-in">Sign In</a>';
+      }
+    }
+
+    renderAuth();
+    clerk.addListener(() => renderAuth());
+  } catch (e) {
+    // Clerk failed silently — sign-in link already shown
+  }
+})();
