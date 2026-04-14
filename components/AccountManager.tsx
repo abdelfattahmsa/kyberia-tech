@@ -20,9 +20,13 @@ export default function AccountManager() {
     return () => document.removeEventListener('click', handler)
   }, [])
 
-  // Placeholder width while Clerk loads — prevents layout shift
+  // Show login link while loading — avoids invisible button if Clerk is slow or env vars are missing
   if (!isLoaded) {
-    return <div className="kt-account-area" style={{ width: 90 }} />
+    return (
+      <div className="kt-account-area">
+        <Link href="/sign-in" className="nav-signin-btn">Client Login</Link>
+      </div>
+    )
   }
 
   if (!user) {
