@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Spline_Sans, Spline_Sans_Mono } from 'next/font/google'
+import { ClerkProvider } from '@clerk/nextjs'
 import './globals.css'
 import Nav from '@/components/Nav'
 import ChatBubble from '@/components/ChatBubble'
@@ -39,23 +40,25 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" dir="ltr">
-      <head>
-        <meta name="color-scheme" content="dark light" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&family=Spline+Sans+Mono:wght@300;400;500&display=swap"
-        />
-      </head>
-      <body className={`${splineSans.variable} ${splineSansMono.variable}`}>
-        <Nav />
-        <main>
-          {children}
-        </main>
-        <Footer />
-        <ChatBubble />
-        <BackToTop />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" dir="ltr">
+        <head>
+          <meta name="color-scheme" content="dark light" />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&family=Spline+Sans+Mono:wght@300;400;500&display=swap"
+          />
+        </head>
+        <body className={`${splineSans.variable} ${splineSansMono.variable}`}>
+          <Nav />
+          <main>
+            {children}
+          </main>
+          <Footer />
+          <ChatBubble />
+          <BackToTop />
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }

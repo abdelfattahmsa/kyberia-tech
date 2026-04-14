@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import AccountManager from '@/components/AccountManager'
 
 export default function Nav() {
   const pathname = usePathname()
@@ -253,10 +254,8 @@ export default function Nav() {
             </div>
           </div>
 
-          {/* Sign In */}
-          <div className="kt-auth-area">
-            <a className="nav-signin-btn" href="https://portal.kyberia.tech">Sign In</a>
-          </div>
+          {/* Account */}
+          <AccountManager />
 
           {/* CTA */}
           <Link className="kt-nav__cta" href="/contact">Start a Project →</Link>
@@ -370,7 +369,6 @@ export default function Nav() {
         </div>
 
         <div className="mobile-cta-section">
-          <a className="mobile-signin-btn" href="https://portal.kyberia.tech">Sign In</a>
           <Link className="mobile-cta-btn" href="/contact">Start a Project →</Link>
         </div>
 
