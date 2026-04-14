@@ -13,7 +13,14 @@
       "Bash(nslookup -type=TXT _dmarc.kyberia.tech)",
       "Bash(nslookup -type=TXT protonmail._domainkey.kyberia.tech 8.8.8.8)",
       "Bash(nslookup -type=TXT protonmail2._domainkey.kyberia.tech 8.8.8.8)",
-      "Bash(nslookup -type=TXT protonmail3._domainkey.kyberia.tech 8.8.8.8)"
+      "Bash(nslookup -type=TXT protonmail3._domainkey.kyberia.tech 8.8.8.8)",
+      "Bash(npm install:*)",
+      "Bash(npx next:*)",
+      "Bash(cp -r \"C:\\\\Users\\\\abdel\\\\Documents\\\\GitHub\\\\kyberia-tech\\\\.claude\\\\worktrees\\\\agent-ab761818\\\\app\" \"C:\\\\Users\\\\abdel\\\\Documents\\\\GitHub\\\\kyberia-tech\\\\app\")",
+      "Bash(cp -r \"C:\\\\Users\\\\abdel\\\\Documents\\\\GitHub\\\\kyberia-tech\\\\.claude\\\\worktrees\\\\agent-ab761818\\\\components\" \"C:\\\\Users\\\\abdel\\\\Documents\\\\GitHub\\\\kyberia-tech\\\\components\")",
+      "Bash(rm -f index.html)",
+      "Bash(rm -rf sign-in sign-up assets/js/clerk-config.js assets/js/script.js)",
+      "Bash(npm show:*)"
     ]
   }
 }
