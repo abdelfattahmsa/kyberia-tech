@@ -133,9 +133,8 @@ export default function Nav() {
 
           {/* Logo */}
           <Link className="kt-nav__logo" href="/" aria-label="Kyberia Tech — Home">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/icon.svg" alt="" width={22} height={22} style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: 8 }} aria-hidden="true" />
-            <span>KYBERIA TECH</span>
+            <span className="kt-logo-badge" aria-hidden="true">K</span>
+            <span>Kyberia Tech</span>
           </Link>
 
           {/* Desktop Links */}
