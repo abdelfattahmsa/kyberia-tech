@@ -13,9 +13,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }): Promise<Metadata> {
-  const project = getProject(params.slug)
+  const { slug } = await params
+  const project = getProject(slug)
   if (!project) return {}
   return {
     title: `${project.title} — Case Study | Kyberia Tech`,
@@ -24,8 +25,9 @@ export async function generateMetadata({
 }
 
 // ── Page ───────────────────────────────────────────────────────────────────────
-export default function CaseStudyPage({ params }: { params: { slug: string } }) {
-  const project = getProject(params.slug)
+export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const project = getProject(slug)
   if (!project) notFound()
 
   return (
