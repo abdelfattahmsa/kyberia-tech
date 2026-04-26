@@ -26,6 +26,12 @@ export const metadata: Metadata = {
   description: 'Cairo-based global creative and technology studio. Strategy-first branding, graphic design, and custom web development for businesses across 9 countries.',
   keywords: 'creative agency Cairo, branding studio Egypt, web design Cairo, digital agency Middle East',
   authors: [{ name: 'Kyberia Tech' }],
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/icon.svg',
+  },
   openGraph: {
     title: 'Kyberia Tech | Strategy-Led Creative & Technology Studio',
     description: 'Cairo-based global creative and technology studio. Strategy-first branding, graphic design, and custom web development for businesses across 9 countries.',

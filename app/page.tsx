@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
+import { PROJECTS } from '@/lib/projects'
 
 export const metadata: Metadata = {
   title: 'Kyberia Tech | Strategy-Led Creative & Technology Studio',
@@ -121,50 +123,31 @@ export default function HomePage() {
         <div className="section-eyebrow">Selected Work</div>
         <h2 className="section-h2">Built with strategy.<br /><em>Delivered with precision.</em></h2>
         <div className="work-grid">
-          <Link href="/work" className="work-card" aria-label="AMC Group project">
-            <div className="work-image">
-              <div className="work-image-placeholder">Project Visual</div>
-              <div className="work-overlay" aria-hidden="true" />
-              <div className="work-cat">Branding &amp; Strategy</div>
-            </div>
-            <div className="work-body">
-              <div className="work-meta"><strong>AMC Group</strong><span>Real Estate · Cairo, Egypt · 2024</span></div>
-              <div className="work-arrow" aria-hidden="true">→</div>
-            </div>
-          </Link>
-          <Link href="/work" className="work-card" aria-label="SA Industrial Development project">
-            <div className="work-image">
-              <div className="work-image-placeholder">Project Visual</div>
-              <div className="work-overlay" aria-hidden="true" />
-              <div className="work-cat">Web &amp; Technology</div>
-            </div>
-            <div className="work-body">
-              <div className="work-meta"><strong>SA Industrial Development</strong><span>Infrastructure · Saudi Arabia · 2024</span></div>
-              <div className="work-arrow" aria-hidden="true">→</div>
-            </div>
-          </Link>
-          <Link href="/work" className="work-card" aria-label="Fintech Client project">
-            <div className="work-image">
-              <div className="work-image-placeholder">Project Visual</div>
-              <div className="work-overlay" aria-hidden="true" />
-              <div className="work-cat">Graphic Design</div>
-            </div>
-            <div className="work-body">
-              <div className="work-meta"><strong>Fintech Client</strong><span>Fintech · Germany · 2023</span></div>
-              <div className="work-arrow" aria-hidden="true">→</div>
-            </div>
-          </Link>
-          <Link href="/work" className="work-card" aria-label="Tech Startup project">
-            <div className="work-image">
-              <div className="work-image-placeholder">Project Visual</div>
-              <div className="work-overlay" aria-hidden="true" />
-              <div className="work-cat">Branding &amp; Web</div>
-            </div>
-            <div className="work-body">
-              <div className="work-meta"><strong>Tech Startup</strong><span>SaaS · South Korea · 2023</span></div>
-              <div className="work-arrow" aria-hidden="true">→</div>
-            </div>
-          </Link>
+          {PROJECTS.slice(0, 4).map(project => (
+            <Link key={project.slug} href={`/work/${project.slug}`} className="work-card" aria-label={`${project.title} project`}>
+              <div className="work-image">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  style={{ objectFit: 'cover', objectPosition: 'top' }}
+                />
+                <div className="work-overlay" aria-hidden="true" />
+                <div className="work-cat">{project.cat}</div>
+              </div>
+              <div className="work-body">
+                <div className="work-meta">
+                  <strong>{project.title}</strong>
+                  <span>{project.subtitle}</span>
+                </div>
+                <div className="work-arrow" aria-hidden="true">→</div>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div style={{ textAlign: 'center', marginTop: 40 }}>
+          <Link href="/work" className="btn-ghost">View All Projects →</Link>
         </div>
       </section>
 
@@ -174,7 +157,7 @@ export default function HomePage() {
         <div className="why-grid">
           <div className="why-left">
             <div className="why-statement">A studio that thinks<br />before it <em>designs.</em></div>
-            <p>Led by a civil engineer and project controls specialist, Kyberia Tech delivers creative and digital work with the structure and discipline most agencies are not built to provide.</p>
+            <p>Kyberia Tech delivers creative and digital work with the structure and discipline most agencies are not built to provide — strategy first, execution second, always accountable.</p>
           </div>
           <div className="why-right">
             <div className="why-item">
