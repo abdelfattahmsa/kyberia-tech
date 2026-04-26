@@ -446,6 +446,30 @@ export default function Nav() {
 
           <div className="mobile-cta-section">
             <Link className="mobile-cta-btn" href="/contact">Start a Project →</Link>
+            <Link
+              href="/sign-in"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                padding: '12px 20px',
+                fontFamily: 'var(--fb)',
+                fontSize: 14,
+                fontWeight: 500,
+                color: 'var(--g300)',
+                textDecoration: 'none',
+                border: '1px solid var(--br2)',
+                background: 'transparent',
+                letterSpacing: '.01em',
+              }}
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true" style={{ color: 'var(--pink)' }}>
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              Client Login
+            </Link>
           </div>
         </div>
       </nav>

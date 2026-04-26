@@ -20,21 +20,22 @@ export default function AccountManager() {
     return () => document.removeEventListener('click', handler)
   }, [])
 
-  // Show login link while loading — avoids invisible button if Clerk is slow or env vars are missing
+  const LoginBtn = () => (
+    <Link href="/sign-in" className="nav-signin-btn" aria-label="Client login">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      Login
+    </Link>
+  )
+
   if (!isLoaded) {
-    return (
-      <div className="kt-account-area">
-        <Link href="/sign-in" className="nav-signin-btn">Client Login</Link>
-      </div>
-    )
+    return <div className="kt-account-area"><LoginBtn /></div>
   }
 
   if (!user) {
-    return (
-      <div className="kt-account-area">
-        <Link href="/sign-in" className="nav-signin-btn">Client Login</Link>
-      </div>
-    )
+    return <div className="kt-account-area"><LoginBtn /></div>
   }
 
   const initials = [user.firstName, user.lastName]

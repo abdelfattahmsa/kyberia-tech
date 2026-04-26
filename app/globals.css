@@ -258,16 +258,6 @@ body.light-mode .icon-moon { opacity: 1; transform: rotate(0); }
 /* Auth area */
 .kt-auth-area { display: flex; align-items: center; flex-shrink: 0; }
 
-.nav-signin-btn {
-  display: flex; align-items: center; gap: 5px; padding: 6px 12px;
-  font-family: var(--fm); font-size: 9.5px; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--g300); text-decoration: none;
-  border: 1px solid var(--br2); background: transparent;
-  transition: color var(--dur), border-color var(--dur), background var(--dur);
-  white-space: nowrap; cursor: pointer;
-}
-.nav-signin-btn:hover { color: var(--white); border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.04); }
-
 /* CTA */
 .kt-nav__cta {
   padding: 9px 18px; background: var(--pink); color: var(--white) !important;
@@ -736,35 +726,36 @@ body.light-mode .service-section.light { background: #E8E8E8; }
 .kt-account-avatar {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
+  border-radius: 2px;
   background: var(--pink);
   color: #fff;
+  font-family: var(--fd);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 1.5px solid rgba(255,255,255,0.15);
-  transition: border-color 0.2s;
+  border: 1.5px solid transparent;
+  transition: border-color var(--dur), opacity var(--dur);
+  letter-spacing: .02em;
 }
-.kt-account-btn:hover .kt-account-avatar { border-color: var(--pink); }
-.kt-account-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.kt-account-btn:hover .kt-account-avatar { border-color: var(--pink); opacity: .85; }
+.kt-account-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
 
 .kt-account-dropdown {
   position: absolute;
-  top: calc(100% + 12px);
+  top: calc(100% + 10px);
   right: 0;
-  width: 220px;
-  background: #181818;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 4px;
-  padding: 6px 0;
+  width: 230px;
+  background: var(--s1);
+  border: 1px solid var(--br2);
+  padding: 0;
   opacity: 0;
   pointer-events: none;
   transform: translateY(-6px);
-  transition: opacity 0.18s, transform 0.18s;
-  z-index: 200;
+  transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
+  z-index: 600;
 }
 .kt-account-area.open .kt-account-dropdown {
   opacity: 1;
@@ -834,18 +825,30 @@ body.light-mode .service-section.light { background: #E8E8E8; }
 .kad-signout:hover { background: rgba(255,68,68,0.08); }
 .kad-signout svg { flex-shrink: 0; }
 
+/* ── Login button — icon + label ── */
 .nav-signin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  font-family: var(--fb);
   font-size: 13px;
   font-weight: 500;
   color: var(--g300);
   text-decoration: none;
-  padding: 6px 12px;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 2px;
-  transition: color 0.2s, border-color 0.2s;
+  background: transparent;
+  border: 1px solid var(--br2);
+  cursor: pointer;
   white-space: nowrap;
+  transition: color var(--dur), border-color var(--dur), background var(--dur);
+  letter-spacing: .01em;
 }
-.nav-signin-btn:hover { color: var(--white); border-color: rgba(255,255,255,0.3); }
+.nav-signin-btn:hover {
+  color: var(--white);
+  border-color: var(--pink-bd);
+  background: var(--pink-tn);
+}
+.nav-signin-btn svg { color: var(--pink); flex-shrink: 0; }
 
 /* ── 27. AUTH PAGES (SIGN-IN) ────────────────────────────────────── */
 .auth-page {
