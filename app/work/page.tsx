@@ -1,20 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-
-const WORK_ITEMS = [
-  { id: 1, category: 'branding', cat: 'Branding & Strategy', title: 'AMC Group', subtitle: 'Real Estate · Cairo, Egypt · 2024' },
-  { id: 2, category: 'web', cat: 'Web & Technology', title: 'SA Industrial Development', subtitle: 'Infrastructure · Saudi Arabia · 2024' },
-  { id: 3, category: 'design', cat: 'Graphic Design', title: 'Fintech Client', subtitle: 'Fintech · Germany · 2023' },
-  { id: 4, category: 'branding web', cat: 'Branding & Web', title: 'Tech Startup', subtitle: 'SaaS · South Korea · 2023' },
-  { id: 5, category: 'branding', cat: 'Branding & Strategy', title: 'Logistics Group', subtitle: 'Logistics · UAE · 2023' },
-  { id: 6, category: 'web', cat: 'Web & Technology', title: 'E-Commerce Platform', subtitle: 'Retail · Australia · 2023' },
-]
+import Image from 'next/image'
+import Link from 'next/link'
+import { PROJECTS } from '@/lib/projects'
 
 export default function WorkPage() {
   const [activeFilter, setActiveFilter] = useState('all')
 
-  const filtered = WORK_ITEMS.filter(item =>
+  const filtered = PROJECTS.filter(item =>
     activeFilter === 'all' || item.category.includes(activeFilter)
   )
 
@@ -26,7 +20,7 @@ export default function WorkPage() {
           100+ projects.<br /><em style={{ fontStyle: 'normal', color: 'var(--pink)' }}>9 countries.</em>
         </h1>
         <p style={{ fontSize: 'clamp(15px,1.5vw,18px)', color: 'var(--g300)', maxWidth: 540, lineHeight: 1.75 }}>
-          Work delivered across branding, design, and digital — from Cairo to Seoul to Berlin. Every project defined, managed, and delivered with engineering discipline.
+          Work delivered across branding, design, and digital — from Cairo to Sydney to Berlin. Every project defined, managed, and delivered with engineering discipline.
         </p>
         <div className="work-filters" role="group" aria-label="Filter projects">
           <button
@@ -50,9 +44,21 @@ export default function WorkPage() {
 
       <div className="work-full-grid" id="workGrid">
         {filtered.map(item => (
-          <div key={item.id} className="work-card" role="article">
+          <Link
+            key={item.slug}
+            href={`/work/${item.slug}`}
+            className="work-card"
+            role="article"
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
             <div className="work-image">
-              <div className="work-image-placeholder">Project Visual</div>
+              <Image
+                src={item.image}
+                alt={item.title}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                style={{ objectFit: 'cover', objectPosition: 'top' }}
+              />
               <div className="work-overlay" aria-hidden="true" />
               <div className="work-cat">{item.cat}</div>
             </div>
@@ -63,8 +69,57 @@ export default function WorkPage() {
               </div>
               <div className="work-arrow" aria-hidden="true">→</div>
             </div>
-          </div>
+          </Link>
         ))}
+      </div>
+
+      {/* ── CTA row ── */}
+      <div style={{
+        borderTop: '1px solid var(--br)',
+        padding: 'clamp(40px,5vw,64px) var(--section-px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 24,
+        flexWrap: 'wrap',
+      }}>
+        <div>
+          <p style={{
+            fontFamily: 'var(--fm)',
+            fontSize: '9px',
+            letterSpacing: '.18em',
+            textTransform: 'uppercase',
+            color: 'var(--pink)',
+            marginBottom: 8,
+          }}>
+            Your project next?
+          </p>
+          <h2 style={{
+            fontFamily: 'var(--fd)',
+            fontWeight: 700,
+            fontSize: 'clamp(22px,3vw,36px)',
+            letterSpacing: '-.02em',
+          }}>
+            Let&apos;s build something great.
+          </h2>
+        </div>
+        <Link
+          href="/request"
+          style={{
+            display: 'inline-block',
+            background: 'var(--pink)',
+            color: 'var(--white)',
+            fontFamily: 'var(--fm)',
+            fontSize: '10px',
+            letterSpacing: '.12em',
+            textTransform: 'uppercase',
+            padding: '14px 32px',
+            whiteSpace: 'nowrap',
+            flexShrink: 0,
+          }}
+        >
+          Start a Project
+        </Link>
       </div>
     </>
   )

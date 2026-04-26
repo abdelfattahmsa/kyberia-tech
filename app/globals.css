@@ -673,6 +673,7 @@ body.light-mode .service-section.light { background: #E8E8E8; }
   .deliverables-grid { grid-template-columns: 1fr 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .work-full-grid { grid-template-columns: repeat(2,1fr); }
+  .case-layout { grid-template-columns: 1fr !important; }
 }
 
 /* ── 24. RESPONSIVE — MOBILE ────────────────────────────────────── */
@@ -1073,3 +1074,9 @@ body.light-mode .service-section.light { background: #E8E8E8; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* ── 28. CASE STUDY PAGE ────────────────────────────────────────── */
+.case-back-link:hover { color: var(--white) !important; }
+.case-visit-btn:hover { background: var(--pink) !important; color: var(--white) !important; }
+.case-layout { display: grid; grid-template-columns: 1fr 280px; gap: clamp(40px,6vw,80px); align-items: start; }
+@media (max-width: 768px) { .case-layout { grid-template-columns: 1fr; } }
