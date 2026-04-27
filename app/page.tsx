@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { PROJECTS } from '@/lib/projects'
-import HeroSceneLoader from '@/components/HeroSceneLoader'
 
 export const metadata: Metadata = {
   title: 'Kyberia Tech | Strategy-Led Creative & Technology Studio',
@@ -35,7 +34,7 @@ export default function HomePage() {
         </div>
 
         {/* ── Three.js animated scene ── */}
-        <HeroSceneLoader />
+        {/* Three.js scene temporarily removed for diagnostic */}
       </section>
 
       {/* Credibility Strip */}
