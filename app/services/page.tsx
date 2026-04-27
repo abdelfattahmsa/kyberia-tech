@@ -22,6 +22,7 @@ export default function ServicesPage() {
       <section className="wf-services" aria-label="Service overview">
         <div className="services-grid">
           <Link href="/services/branding" className="service-card">
+            <span className="sc-watermark" aria-hidden="true">◈</span>
             <div className="sc-num">01</div>
             <div className="sc-icon" aria-hidden="true">◈</div>
             <div className="sc-title">Branding &amp; Strategy</div>
@@ -31,6 +32,7 @@ export default function ServicesPage() {
             <div className="sc-link" aria-hidden="true">Explore service →</div>
           </Link>
           <Link href="/services/design" className="service-card">
+            <span className="sc-watermark" aria-hidden="true">◇</span>
             <div className="sc-num">02</div>
             <div className="sc-icon" aria-hidden="true">◇</div>
             <div className="sc-title">Graphic Design</div>
@@ -40,6 +42,7 @@ export default function ServicesPage() {
             <div className="sc-link" aria-hidden="true">Explore service →</div>
           </Link>
           <Link href="/services/web" className="service-card">
+            <span className="sc-watermark" aria-hidden="true">◻</span>
             <div className="sc-num">03</div>
             <div className="sc-icon" aria-hidden="true">◻</div>
             <div className="sc-title">Web Design &amp; Development</div>
@@ -52,6 +55,13 @@ export default function ServicesPage() {
       </section>
 
       <section className="wf-cta" aria-label="Services CTA">
+        <svg className="cta-asterisk" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+          {Array.from({ length: 10 }, (_, i) => (
+            <rect key={i} x="47" y="4" width="6" height="42" rx="2" fill="#FF2F92"
+              transform={`rotate(${i * 36} 50 50)`} />
+          ))}
+          <circle cx="50" cy="50" r="9" fill="#FF2F92" />
+        </svg>
         <div className="cta-label">Ready to start?</div>
         <h2 className="cta-h2">Tell us what you<br />need to <em>build.</em></h2>
         <p className="cta-sub">We scope every engagement from scratch. No packages, no guesswork. Start with a conversation.</p>

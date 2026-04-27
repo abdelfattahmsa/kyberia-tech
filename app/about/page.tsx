@@ -112,6 +112,13 @@ export default function AboutPage() {
 
       {/* CTA */}
       <section className="wf-cta" aria-label="About CTA">
+        <svg className="cta-asterisk" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+          {Array.from({ length: 10 }, (_, i) => (
+            <rect key={i} x="47" y="4" width="6" height="42" rx="2" fill="#FF2F92"
+              transform={`rotate(${i * 36} 50 50)`} />
+          ))}
+          <circle cx="50" cy="50" r="9" fill="#FF2F92" />
+        </svg>
         <div className="cta-label">Part of Peridot Holding</div>
         <h2 className="cta-h2">Kyberia Tech operates<br />within a <em>holding group.</em></h2>
         <p className="cta-sub">Alongside a sister architecture and interior design studio — creative and spatial disciplines under one group. One standard of discipline across every project.</p>

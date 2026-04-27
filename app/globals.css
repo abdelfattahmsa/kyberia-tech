@@ -566,6 +566,7 @@ body.mob-open { overflow: hidden; }
 /* ── 17. ABOUT ──────────────────────────────────────────────────── */
 .about-hero { padding:var(--section-py) var(--section-px) calc(var(--section-py)*.8); background:var(--black); position:relative; overflow:hidden; width: 100%; }
 .about-hero::before { content:''; position:absolute; top:-80px; right:-80px; width:500px; height:500px; background:radial-gradient(circle,var(--pink-gl),transparent 65%); pointer-events:none; }
+.about-hero::after { content:'◈'; position:absolute; right:calc(var(--section-px) - 16px); bottom:-40px; font-size:clamp(160px,20vw,280px); line-height:1; color:var(--pink); opacity:0.03; pointer-events:none; font-family:var(--fd); font-weight:700; }
 .founder-section { padding:var(--section-py) var(--section-px); display:grid; grid-template-columns:1fr 1fr; gap:clamp(32px,5vw,64px); background:var(--s1); border-top:1px solid var(--br2); width: 100%; }
 .founder-card { background:var(--nb); border:1px solid var(--br2); padding:clamp(24px,3vw,36px); }
 .founder-name  { font-family:var(--fd); font-weight:700; font-size:clamp(22px,2.5vw,28px); letter-spacing:-.02em; margin-bottom:4px; }
