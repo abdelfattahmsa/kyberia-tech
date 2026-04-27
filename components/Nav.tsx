@@ -17,13 +17,42 @@ const SEARCH_INDEX = [
   { title: 'Work', subtitle: 'All case studies and projects', href: '/work', type: 'Page' },
 ]
 
-const APPS = [
-  { name: 'Store',  href: 'https://store.kyberia.tech',  initial: 'S',  color: '#FF2F92' },
-  { name: 'Blog',   href: 'https://blog.kyberia.tech',   initial: 'B',  color: '#3B82F6' },
-  { name: 'Studio', href: 'https://studio.kyberia.tech', initial: 'St', color: '#10B981' },
-  { name: 'Labs',   href: 'https://labs.kyberia.tech',   initial: 'L',  color: '#F97316' },
-  { name: 'Portal', href: 'https://portal.kyberia.tech', initial: 'P',  color: '#8B5CF6' },
+const APPS: Array<{ name: string; href: string; type: 'asterisk' | 'letter'; letter?: string; color: string }> = [
+  { name: 'Store',  href: 'https://store.kyberia.tech',  type: 'letter',   letter: 'S', color: '#FF2F92' },
+  { name: 'Blog',   href: 'https://blog.kyberia.tech',   type: 'letter',   letter: 'B', color: '#FF2F92' },
+  { name: 'Studio', href: 'https://studio.kyberia.tech', type: 'asterisk',              color: '#F97316' },
+  { name: 'Labs',   href: 'https://labs.kyberia.tech',   type: 'asterisk',              color: '#3B82F6' },
+  { name: 'Portal', href: 'https://portal.kyberia.tech', type: 'letter',   letter: 'P', color: '#FF2F92' },
 ]
+
+function AppIcon({ type, letter }: { type: 'asterisk' | 'letter'; letter?: string }) {
+  if (type === 'asterisk') {
+    return (
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        {Array.from({ length: 10 }, (_, i) => (
+          <rect key={i} x="10.8" y="2" width="2.4" height="8" rx="1.1" fill="white"
+            transform={`rotate(${i * 36} 12 12)`} />
+        ))}
+        <circle cx="12" cy="12" r="2.5" fill="white" />
+      </svg>
+    )
+  }
+  return (
+    <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ fontFamily: 'var(--fd)', fontWeight: 800, fontSize: 16, color: '#fff', lineHeight: 1 }}>
+        {letter}
+      </span>
+      <svg viewBox="0 0 10 10" width="10" height="10" aria-hidden="true"
+        style={{ position: 'absolute', top: -5, right: -8 }}>
+        {Array.from({ length: 6 }, (_, i) => (
+          <rect key={i} x="4.2" y="0.5" width="1.6" height="4" rx="0.65" fill="white"
+            transform={`rotate(${i * 60} 5 5)`} />
+        ))}
+        <circle cx="5" cy="5" r="1.2" fill="white" />
+      </svg>
+    </span>
+  )
+}
 
 export default function Nav() {
   const pathname = usePathname()
@@ -192,7 +221,9 @@ export default function Nav() {
                     {APPS.map(app => (
                       <a key={app.href} href={app.href} target="_blank" rel="noopener noreferrer"
                         onClick={() => setAppsOpen(false)} className="kt-app-tile" role="menuitem">
-                        <div className="kt-app-tile__badge" style={{ background: app.color }}>{app.initial}</div>
+                        <div className="kt-app-tile__badge" style={{ background: app.color }}>
+                          <AppIcon type={app.type} letter={app.letter} />
+                        </div>
                         <span className="kt-app-tile__name">{app.name}</span>
                       </a>
                     ))}
@@ -327,7 +358,9 @@ export default function Nav() {
                     onClick={() => setMobileOpen(false)}
                     className="kmc-app"
                   >
-                    <div className="kmc-app__badge" style={{ background: app.color }}>{app.initial}</div>
+                    <div className="kmc-app__badge" style={{ background: app.color }}>
+                      <AppIcon type={app.type} letter={app.letter} />
+                    </div>
                     <span className="kmc-app__name">{app.name}</span>
                   </a>
                 ))}
