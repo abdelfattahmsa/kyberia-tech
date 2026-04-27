@@ -15,7 +15,6 @@ export default function HomePage() {
         {/* ── Ghost decoration layer ── */}
         <span className="hero-ghost hg-1" aria-hidden="true">◈</span>
         <span className="hero-ghost hg-2" aria-hidden="true">◇</span>
-        <span className="hero-ghost hg-3" aria-hidden="true">◻</span>
         <span className="hero-ghost hg-4" aria-hidden="true">◈</span>
         <span className="hero-ghost hg-5" aria-hidden="true">◇</span>
 
