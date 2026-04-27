@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { PROJECTS } from '@/lib/projects'
+import HeroSceneLoader from '@/components/HeroSceneLoader'
 
 export const metadata: Metadata = {
   title: 'Kyberia Tech | Strategy-Led Creative & Technology Studio',
@@ -13,22 +14,28 @@ export default function HomePage() {
     <>
       {/* Hero */}
       <section className="wf-hero" aria-label="Hero">
-        <div className="hero-eyebrow">Cairo-based · Globally delivered since 2018</div>
-        <h1 className="hero-h1">We build brands<br />that <em>work.</em></h1>
-        <p className="hero-sub">Strategy-led branding, graphic design, and web solutions for businesses across 9 countries. Creative thinking. Engineering discipline.</p>
-        <div className="hero-ctas">
-          <Link href="/contact" className="btn-primary">Start a Project →</Link>
-          <Link href="/work" className="btn-ghost">View Our Work</Link>
+        {/* ── Text content ── */}
+        <div className="hero-content">
+          <div className="hero-eyebrow">Cairo-based · Globally delivered since 2018</div>
+          <h1 className="hero-h1">We build brands<br />that <em>work.</em></h1>
+          <p className="hero-sub">Strategy-led branding, graphic design, and web solutions for businesses across 9 countries. Creative thinking. Engineering discipline.</p>
+          <div className="hero-ctas">
+            <Link href="/contact" className="btn-primary">Start a Project →</Link>
+            <Link href="/work" className="btn-ghost">View Our Work</Link>
+          </div>
+          <div className="hero-bottom">
+            <div className="hero-stat"><div className="hero-stat-num">7+</div><div className="hero-stat-lbl">Years operating</div></div>
+            <div className="hero-stat-div" aria-hidden="true" />
+            <div className="hero-stat"><div className="hero-stat-num">9</div><div className="hero-stat-lbl">Countries served</div></div>
+            <div className="hero-stat-div" aria-hidden="true" />
+            <div className="hero-stat"><div className="hero-stat-num">100+</div><div className="hero-stat-lbl">Projects delivered</div></div>
+            <div className="hero-stat-div" aria-hidden="true" />
+            <div className="hero-stat"><div className="hero-stat-num">3</div><div className="hero-stat-lbl">Service pillars</div></div>
+          </div>
         </div>
-        <div className="hero-bottom">
-          <div className="hero-stat"><div className="hero-stat-num">7+</div><div className="hero-stat-lbl">Years operating</div></div>
-          <div className="hero-stat-div" aria-hidden="true" />
-          <div className="hero-stat"><div className="hero-stat-num">9</div><div className="hero-stat-lbl">Countries served</div></div>
-          <div className="hero-stat-div" aria-hidden="true" />
-          <div className="hero-stat"><div className="hero-stat-num">100+</div><div className="hero-stat-lbl">Projects delivered</div></div>
-          <div className="hero-stat-div" aria-hidden="true" />
-          <div className="hero-stat"><div className="hero-stat-num">3</div><div className="hero-stat-lbl">Service pillars</div></div>
-        </div>
+
+        {/* ── Three.js animated scene ── */}
+        <HeroSceneLoader />
       </section>
 
       {/* Credibility Strip */}
@@ -53,6 +60,7 @@ export default function HomePage() {
         <h2 className="section-h2">Three services.<br />One <em>system.</em></h2>
         <div className="services-grid">
           <Link href="/services/branding" className="service-card" aria-label="Branding and Strategy service">
+            <span className="sc-watermark" aria-hidden="true">◈</span>
             <div className="sc-num">01</div>
             <div className="sc-icon" aria-hidden="true">◈</div>
             <div className="sc-title">Branding &amp; Strategy</div>
@@ -62,6 +70,7 @@ export default function HomePage() {
             <div className="sc-link" aria-hidden="true">Explore service →</div>
           </Link>
           <Link href="/services/design" className="service-card" aria-label="Graphic Design service">
+            <span className="sc-watermark" aria-hidden="true">◇</span>
             <div className="sc-num">02</div>
             <div className="sc-icon" aria-hidden="true">◇</div>
             <div className="sc-title">Graphic Design</div>
@@ -71,6 +80,7 @@ export default function HomePage() {
             <div className="sc-link" aria-hidden="true">Explore service →</div>
           </Link>
           <Link href="/services/web" className="service-card" aria-label="Web Design and Development service">
+            <span className="sc-watermark" aria-hidden="true">◻</span>
             <div className="sc-num">03</div>
             <div className="sc-icon" aria-hidden="true">◻</div>
             <div className="sc-title">Web Design &amp; Development</div>
@@ -194,6 +204,14 @@ export default function HomePage() {
 
       {/* CTA */}
       <section className="wf-cta" aria-label="Call to action">
+        {/* Background asterisk watermark */}
+        <svg className="cta-asterisk" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+          {Array.from({ length: 10 }, (_, i) => (
+            <rect key={i} x="47" y="4" width="6" height="42" rx="2" fill="#FF2F92"
+              transform={`rotate(${i * 36} 50 50)`} />
+          ))}
+          <circle cx="50" cy="50" r="9" fill="#FF2F92" />
+        </svg>
         <div className="cta-label">Start a Conversation</div>
         <h2 className="cta-h2">Let&apos;s build something<br />that <em>lasts.</em></h2>
         <p className="cta-sub">Tell us about your project. We&apos;ll respond within 24 hours with clarity about what you need — and what you don&apos;t.</p>
