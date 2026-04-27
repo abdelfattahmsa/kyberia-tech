@@ -305,22 +305,54 @@ body.mob-open { overflow: hidden; }
   background: radial-gradient(circle, rgba(255,47,146,.08), transparent 65%);
   pointer-events: none; z-index: 0;
 }
-/* Primary ghost — giant ◈ right side */
-.wf-hero::after {
-  content: '◈';
-  position: absolute; right: -3vw; top: 50%; transform: translateY(-50%);
-  font-size: clamp(320px, 48vw, 700px); line-height: 1;
-  color: var(--pink); opacity: 0.032;
-  pointer-events: none; user-select: none; z-index: 0;
-  font-family: var(--fd);
+/* ── Ghost animation system ── */
+@keyframes ghost-pulse {
+  0%, 100% { opacity: var(--op-lo, 0.02); }
+  50%       { opacity: var(--op-hi, 0.05); }
 }
-/* Secondary ghosts */
+/* Base ghost styles */
 .hero-ghost {
   position: absolute; font-family: var(--fd); line-height: 1;
   user-select: none; pointer-events: none; z-index: 0;
+  will-change: opacity;
+  animation: ghost-pulse var(--gp-dur, 6s) ease-in-out var(--gp-del, 0s) infinite;
+  transition: filter 0.6s ease;
 }
-.hero-ghost--2 { right: 16vw; top: 8%; font-size: clamp(60px, 9vw, 130px); color: var(--white); opacity: 0.018; }
-.hero-ghost--3 { right: 32vw; bottom: 6%; font-size: clamp(40px, 6vw, 90px); color: var(--white); opacity: 0.013; }
+/* Section hover: all ghosts brighten together */
+.wf-hero:hover .hero-ghost { filter: brightness(2.2) saturate(1.4); }
+
+/* Individual ghost positions, sizes, symbols, timings */
+/* hg-1: Giant ◈ — anchor, right-center, pink */
+.hg-1 {
+  right: -2vw; top: 50%; transform: translateY(-50%);
+  font-size: clamp(300px, 46vw, 680px); color: var(--pink);
+  --op-lo: 0.024; --op-hi: 0.056; --gp-dur: 6.4s; --gp-del: 0s;
+}
+/* hg-2: ◇ — upper-right, white, mid-size */
+.hg-2 {
+  right: 13vw; top: 5%;
+  font-size: clamp(52px, 8vw, 118px); color: var(--white);
+  --op-lo: 0.012; --op-hi: 0.030; --gp-dur: 5.1s; --gp-del: 1.4s;
+}
+/* hg-3: ◻ — lower-right, white, small */
+.hg-3 {
+  right: 27vw; bottom: 4%;
+  font-size: clamp(36px, 5.5vw, 82px); color: var(--white);
+  --op-lo: 0.009; --op-hi: 0.023; --gp-dur: 7.3s; --gp-del: 0.7s;
+}
+/* hg-4: ◈ — near top-right edge, white, small */
+.hg-4 {
+  right: 3.5vw; top: 9%;
+  font-size: clamp(42px, 6vw, 92px); color: var(--white);
+  --op-lo: 0.011; --op-hi: 0.026; --gp-dur: 4.9s; --gp-del: 2.2s;
+}
+/* hg-5: ◇ — mid-depth, pink accent */
+.hg-5 {
+  right: 21vw; top: 36%;
+  font-size: clamp(26px, 3.8vw, 56px); color: var(--pink);
+  --op-lo: 0.014; --op-hi: 0.036; --gp-dur: 5.8s; --gp-del: 1.0s;
+}
+
 /* Content constraint */
 .hero-content { position: relative; z-index: 1; max-width: 740px; }
 .hero-eyebrow {
@@ -680,8 +712,8 @@ body.light-mode .service-section.light { background: #E8E8E8; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .work-full-grid { grid-template-columns: repeat(2,1fr); }
   .case-layout { grid-template-columns: 1fr !important; }
-  /* Shrink hero ghost on tablet */
-  .wf-hero::after { font-size: clamp(220px, 44vw, 480px); }
+  /* Shrink main hero ghost on tablet */
+  .hg-1 { font-size: clamp(220px, 42vw, 480px); }
 }
 
 /* ── 24. RESPONSIVE — MOBILE ────────────────────────────────────── */
@@ -693,9 +725,9 @@ body.light-mode .service-section.light { background: #E8E8E8; }
   .hero-sub { font-size: 15px; }
   .hero-bottom { gap: 16px; margin-top: 36px; padding-top: 24px; }
   .hero-stat-div { display: none; }
-  /* Shrink hero ghost on mobile */
-  .wf-hero::after { font-size: clamp(180px, 55vw, 320px); opacity: 0.025; }
-  .hero-ghost--2, .hero-ghost--3 { display: none; }
+  /* Shrink main hero ghost on mobile, hide secondary ones */
+  .hg-1 { font-size: clamp(180px, 52vw, 300px); --op-hi: 0.040; }
+  .hg-2, .hg-3, .hg-4, .hg-5 { display: none; }
   .services-grid, .process-steps, .deliverables-grid,
   .why-grid, .service-hero, .founder-section,
   .contact-hero { grid-template-columns: 1fr; }

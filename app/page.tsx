@@ -13,8 +13,11 @@ export default function HomePage() {
       {/* Hero */}
       <section className="wf-hero" aria-label="Hero">
         {/* ── Ghost decoration layer ── */}
-        <span className="hero-ghost hero-ghost--2" aria-hidden="true">◈</span>
-        <span className="hero-ghost hero-ghost--3" aria-hidden="true">◇</span>
+        <span className="hero-ghost hg-1" aria-hidden="true">◈</span>
+        <span className="hero-ghost hg-2" aria-hidden="true">◇</span>
+        <span className="hero-ghost hg-3" aria-hidden="true">◻</span>
+        <span className="hero-ghost hg-4" aria-hidden="true">◈</span>
+        <span className="hero-ghost hg-5" aria-hidden="true">◇</span>
 
         {/* ── Text content ── */}
         <div className="hero-content">
