@@ -39,7 +39,7 @@ export default function Footer() {
         <div className="footer-bottom">
           <div className="footer-copy">© 2026 Kyberia Tech · All rights reserved</div>
           <div className="footer-legal">
-            <a href="#">Privacy Policy</a>
+            <Link href="/privacy">Privacy Policy</Link>
             <a href="#">Terms of Service</a>
           </div>
         </div>
