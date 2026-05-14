@@ -40,7 +40,7 @@ export default function Footer() {
           <div className="footer-copy">© 2026 Kyberia Tech · All rights reserved</div>
           <div className="footer-legal">
             <Link href="/privacy">Privacy Policy</Link>
-            <a href="#">Terms of Service</a>
+            <Link href="/terms">Terms &amp; Conditions</Link>
           </div>
         </div>
       </div>
