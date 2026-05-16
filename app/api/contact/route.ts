@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     if (process.env.RESEND_API_KEY) {
       const resend = new Resend(process.env.RESEND_API_KEY)
       await resend.emails.send({
-        from:    'Kyberia Tech <noreply@kyberia.tech>',
+        from:    'Kyberia Tech <hello@kyberia.tech>',
         to:      'hello@kyberia.tech',
         subject: `New Project Enquiry — ${serviceLabel}`,
         html: `
