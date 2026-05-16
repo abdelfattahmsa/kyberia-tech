@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { clerkClient } from '@clerk/nextjs/server'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
 const PORTAL_URL = process.env.NEXT_PUBLIC_PORTAL_URL ?? 'https://portal.kyberia.tech'
 const PORTAL_INTAKE_SECRET = process.env.PORTAL_INTAKE_SECRET ?? ''
 
@@ -43,6 +42,7 @@ export async function POST(req: NextRequest) {
 
     // ── 1. Notify the team ──────────────────────────────────────────────────
     if (process.env.RESEND_API_KEY) {
+      const resend = new Resend(process.env.RESEND_API_KEY)
       await resend.emails.send({
         from:    'Kyberia Tech <noreply@kyberia.tech>',
         to:      'hello@kyberia.tech',
@@ -95,6 +95,7 @@ export async function POST(req: NextRequest) {
 
     // ── 3. Send confirmation to client ─────────────────────────────────────
     if (process.env.RESEND_API_KEY) {
+      const resend = new Resend(process.env.RESEND_API_KEY)
       await resend.emails.send({
         from:    'Kyberia Tech <hello@kyberia.tech>',
         to:      email,

@@ -2,7 +2,6 @@ import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend   = new Resend(process.env.RESEND_API_KEY)
 const PORTAL_URL = process.env.NEXT_PUBLIC_PORTAL_URL ?? 'https://portal.kyberia.tech'
 
 // Map the friendly service labels shown in the UI to the portal's ProjectType enum
@@ -73,6 +72,7 @@ export async function POST(req: NextRequest) {
 
   // ── Email notification to team ──────────────────────────────────────────
   if (process.env.RESEND_API_KEY) {
+    const resend = new Resend(process.env.RESEND_API_KEY)
     await resend.emails.send({
       from:    'Kyberia Tech <noreply@kyberia.tech>',
       to:      'hello@kyberia.tech',
