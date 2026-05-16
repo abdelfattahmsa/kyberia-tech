@@ -33,6 +33,8 @@ export default function Footer() {
               <li><a href="https://studio.kyberia.tech" target="_blank" rel="noopener">Kyberia Studio</a></li>
               <li><a href="https://blog.kyberia.tech" target="_blank" rel="noopener">Kyberia Blog</a></li>
               <li><a href="mailto:hello@kyberia.tech">hello@kyberia.tech</a></li>
+              <li><a href="https://wa.me/message/SJXEXHUQIVT5C1" target="_blank" rel="noopener">WhatsApp</a></li>
+              <li><a href="tel:+201128905160">+20 11 2890 5160</a></li>
             </ul>
           </div>
         </div>

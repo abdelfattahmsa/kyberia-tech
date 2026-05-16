@@ -2,7 +2,7 @@ export default function ChatBubble() {
   return (
     <a
       className="kt-chat"
-      href="https://wa.link/ermm11"
+      href="https://wa.me/message/SJXEXHUQIVT5C1"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with the Kyberia team on WhatsApp"
