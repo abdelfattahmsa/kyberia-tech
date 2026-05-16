@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { clerkClient } from '@clerk/nextjs/server'
 
-const PORTAL_URL = process.env.NEXT_PUBLIC_PORTAL_URL ?? 'https://portal.kyberia.tech'
+const PORTAL_URL           = process.env.NEXT_PUBLIC_PORTAL_URL ?? 'https://portal.kyberia.tech'
 const PORTAL_INTAKE_SECRET = process.env.PORTAL_INTAKE_SECRET ?? ''
 
 const SERVICE_LABEL: Record<string, string> = {
@@ -39,6 +39,8 @@ export async function POST(req: NextRequest) {
     const serviceLabel = SERVICE_LABEL[service] ?? service
     const budgetLabel  = budget ? (BUDGET_LABEL[budget] ?? budget) : 'Not specified'
     const portalType   = SERVICE_TYPE_MAP[service] ?? 'OTHER'
+    const [firstName, ...rest] = name.trim().split(' ')
+    const lastName = rest.join(' ') || undefined
 
     // ── 1. Notify the team ──────────────────────────────────────────────────
     if (process.env.RESEND_API_KEY) {
@@ -46,6 +48,7 @@ export async function POST(req: NextRequest) {
       await resend.emails.send({
         from:    'Kyberia Tech <hello@kyberia.tech>',
         to:      'hello@kyberia.tech',
+        replyTo: email,
         subject: `New Project Enquiry — ${serviceLabel}`,
         html: `
           <div style="font-family:sans-serif;max-width:560px;color:#111">
@@ -68,29 +71,30 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    // ── 2. Create Clerk user / send invitation ──────────────────────────────
+    // ── 2. Send Clerk invitation (emails the user a portal sign-up link) ────
     let clerkUserId: string | null = null
     try {
       const client = await clerkClient()
-      // Check if user already exists
+
+      // Check if user already has a Clerk account
       const existing = await client.users.getUserList({ emailAddress: [email] })
+
       if (existing.totalCount > 0) {
+        // User already exists — just capture their ID
         clerkUserId = existing.data[0].id
       } else {
-        const [firstName, ...rest] = name.split(' ')
-        const newUser = await client.users.createUser({
-          emailAddress: [email],
-          firstName,
-          lastName: rest.join(' ') || undefined,
-          skipPasswordChecks: true,
-          skipPasswordRequirement: true,
+        // New user — send a Clerk invitation email (sign-up link)
+        await client.invitations.createInvitation({
+          emailAddress:   email,
+          redirectUrl:    `${PORTAL_URL}/dashboard`,
+          publicMetadata: { firstName, lastName: lastName ?? '', company: company ?? '' },
+          notify:         true,   // Clerk sends the invitation email automatically
+          ignoreExisting: true,   // Don't error if already invited
         })
-        clerkUserId = newUser.id
-        // Send them a sign-in magic link so they can access the portal
-        await client.signInTokens.createSignInToken({ userId: clerkUserId, expiresInSeconds: 60 * 60 * 24 * 7 })
       }
-    } catch {
-      // Non-fatal — request still logged
+    } catch (err) {
+      console.error('[/api/contact] Clerk invitation error:', err)
+      // Non-fatal — continues without Clerk
     }
 
     // ── 3. Send confirmation to client ─────────────────────────────────────
@@ -102,12 +106,21 @@ export async function POST(req: NextRequest) {
         subject: 'We received your enquiry — Kyberia Tech',
         html: `
           <div style="font-family:sans-serif;max-width:560px;color:#111">
-            <h2 style="color:#FF2F92;margin:0 0 16px">Thanks, ${name.split(' ')[0]}.</h2>
-            <p style="color:#444;line-height:1.7">We received your project enquiry for <strong>${serviceLabel}</strong> and we'll get back to you within 24 hours with clarity about what you need — and what you don't.</p>
-            <p style="color:#444;line-height:1.7">We've created a client account for you at <a href="https://portal.kyberia.tech" style="color:#FF2F92">portal.kyberia.tech</a> where you can track your request and communicate with our team. Check your inbox for a separate login link.</p>
+            <h2 style="color:#FF2F92;margin:0 0 16px">Thanks, ${firstName}.</h2>
+            <p style="color:#444;line-height:1.7">
+              We received your project enquiry for <strong>${serviceLabel}</strong> and we'll get back to you
+              within 24 hours with clarity about what you need — and what you don't.
+            </p>
+            <p style="color:#444;line-height:1.7">
+              We've set up a client account for you at
+              <a href="${PORTAL_URL}" style="color:#FF2F92">portal.kyberia.tech</a>
+              where you can track your request. Check your inbox for a separate invitation link to activate it.
+            </p>
             <hr style="border:none;border-top:1px solid #eee;margin:24px 0" />
             <p style="font-size:13px;color:#666">
-              Kyberia Tech · Cairo, Egypt · <a href="https://kyberia.tech" style="color:#FF2F92">kyberia.tech</a>
+              Kyberia Tech · Cairo, Egypt ·
+              <a href="https://kyberia.tech" style="color:#FF2F92">kyberia.tech</a> ·
+              <a href="tel:+201128905160" style="color:#FF2F92">+20 11 2890 5160</a>
             </p>
           </div>
         `,
@@ -115,9 +128,11 @@ export async function POST(req: NextRequest) {
     }
 
     // ── 4. Create project request in portal ─────────────────────────────────
-    if (PORTAL_INTAKE_SECRET) {
-      await fetch(`${PORTAL_URL}/api/intake`, {
-        method: 'POST',
+    if (!PORTAL_INTAKE_SECRET) {
+      console.warn('[/api/contact] PORTAL_INTAKE_SECRET not set — skipping portal request creation')
+    } else {
+      const intakeRes = await fetch(`${PORTAL_URL}/api/intake`, {
+        method:  'POST',
         headers: {
           'Content-Type':  'application/json',
           'Authorization': `Bearer ${PORTAL_INTAKE_SECRET}`,
@@ -132,7 +147,12 @@ export async function POST(req: NextRequest) {
           description: message || `Enquiry for ${serviceLabel}. Budget: ${budgetLabel}.`,
           source:      'kyberia.tech/contact',
         }),
-      }).catch(() => null) // Non-fatal
+      })
+
+      if (!intakeRes.ok) {
+        const errText = await intakeRes.text().catch(() => '')
+        console.error(`[/api/contact] Portal intake failed (${intakeRes.status}):`, errText)
+      }
     }
 
     return NextResponse.json({ ok: true }, { status: 200 })
