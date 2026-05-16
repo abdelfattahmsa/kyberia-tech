@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, FormEvent } from 'react'
 import AccountManager from '@/components/AccountManager'
 import { PROJECTS } from '@/lib/projects'
 
@@ -24,6 +24,11 @@ const APPS: Array<{ name: string; href: string; type: 'asterisk' | 'letter'; let
   { name: 'Labs',   href: 'https://labs.kyberia.tech',   type: 'asterisk',              color: '#3B82F6' },
   { name: 'Portal', href: 'https://portal.kyberia.tech', type: 'letter',   letter: 'P', color: '#FF2F92' },
 ]
+
+const SERVICE_LABEL: Record<string, string> = {
+  branding: 'Branding & Strategy', design: 'Graphic Design',
+  web: 'Web Design & Development', bundle: 'Brand + Web Bundle', other: 'Other / Not sure yet',
+}
 
 function AppIcon({ type, letter }: { type: 'asterisk' | 'letter'; letter?: string }) {
   if (type === 'asterisk') {
@@ -54,6 +59,147 @@ function AppIcon({ type, letter }: { type: 'asterisk' | 'letter'; letter?: strin
   )
 }
 
+// ── New Project Modal ─────────────────────────────────────────────────────────
+function NewProjectModal({ onClose }: { onClose: () => void }) {
+  const nameRef    = useRef<HTMLInputElement>(null)
+  const emailRef   = useRef<HTMLInputElement>(null)
+  const companyRef = useRef<HTMLInputElement>(null)
+  const serviceRef = useRef<HTMLSelectElement>(null)
+  const budgetRef  = useRef<HTMLSelectElement>(null)
+  const messageRef = useRef<HTMLTextAreaElement>(null)
+
+  const [submitting, setSubmitting] = useState(false)
+  const [success, setSuccess]       = useState(false)
+  const [error, setError]           = useState<string | null>(null)
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+    const name    = nameRef.current?.value.trim() || ''
+    const email   = emailRef.current?.value.trim() || ''
+    const service = serviceRef.current?.value || ''
+    if (!name || !email || !service) {
+      setError('Please fill in Name, Email, and Service.')
+      return
+    }
+    setError(null)
+    setSubmitting(true)
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name, email,
+          company: companyRef.current?.value.trim() || '',
+          service,
+          budget:  budgetRef.current?.value || '',
+          message: messageRef.current?.value.trim() || '',
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Something went wrong.')
+      setSuccess(true)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Something went wrong.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <div className="np-overlay" role="dialog" aria-modal="true" aria-label="New project enquiry">
+      <div className="np-backdrop" onClick={onClose} />
+      <div className="np-modal">
+        <button className="np-close" onClick={onClose} aria-label="Close">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path d="M18 6 6 18M6 6l12 12"/>
+          </svg>
+        </button>
+
+        {success ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: '20px 0' }}>
+            <div style={{ fontSize: 28, color: 'var(--pink)' }} aria-hidden="true">◈</div>
+            <h2 style={{ fontFamily: 'var(--fd)', fontWeight: 700, fontSize: 22, letterSpacing: '-.02em' }}>
+              Request received.
+            </h2>
+            <p style={{ fontSize: 14, color: 'var(--g300)', lineHeight: 1.8 }}>
+              We&apos;ll get back to you within 24 hours. Check your inbox — we&apos;ve sent a confirmation and set up your client account at{' '}
+              <a href="https://portal.kyberia.tech" target="_blank" rel="noopener" style={{ color: 'var(--pink)' }}>portal.kyberia.tech</a>.
+            </p>
+            <button className="btn-primary" onClick={onClose} style={{ marginTop: 8, alignSelf: 'flex-start' }}>
+              Close →
+            </button>
+          </div>
+        ) : (
+          <>
+            <div style={{ marginBottom: 24 }}>
+              <div className="section-eyebrow" style={{ marginBottom: 6 }}>New Project</div>
+              <h2 style={{ fontFamily: 'var(--fd)', fontWeight: 700, fontSize: 22, letterSpacing: '-.02em', lineHeight: 1.1 }}>
+                Tell us what you&apos;re building.
+              </h2>
+            </div>
+
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div className="form-group">
+                <label className="form-label req" htmlFor="np-name">Full Name</label>
+                <input ref={nameRef} className="form-input" id="np-name" type="text" placeholder="Your full name" autoComplete="name" required />
+              </div>
+
+              <div className="form-row-2">
+                <div className="form-group">
+                  <label className="form-label req" htmlFor="np-email">Email</label>
+                  <input ref={emailRef} className="form-input" id="np-email" type="email" placeholder="hello@company.com" autoComplete="email" required />
+                </div>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="np-company">Company</label>
+                  <input ref={companyRef} className="form-input" id="np-company" type="text" placeholder="Company name" />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label req" htmlFor="np-service">Service Needed</label>
+                <select ref={serviceRef} className="form-select" id="np-service" required defaultValue="">
+                  <option value="" disabled>Select a service</option>
+                  {Object.entries(SERVICE_LABEL).map(([v, l]) => (
+                    <option key={v} value={v}>{l}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="np-budget">Budget Range</label>
+                <select ref={budgetRef} className="form-select" id="np-budget" defaultValue="">
+                  <option value="" disabled>Select a range</option>
+                  <option value="under5k">Under $5,000</option>
+                  <option value="5-10k">$5,000 – $10,000</option>
+                  <option value="10-20k">$10,000 – $20,000</option>
+                  <option value="20kplus">$20,000+</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="np-message">Project Brief</label>
+                <textarea ref={messageRef} className="form-textarea" id="np-message"
+                  placeholder="What are you building? What problem does it solve?" rows={3} />
+              </div>
+
+              {error && (
+                <div style={{ fontSize: 13, color: '#f87171', padding: '10px 14px', background: 'rgba(248,113,113,.08)', border: '1px solid rgba(248,113,113,.2)' }} role="alert">
+                  {error}
+                </div>
+              )}
+
+              <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center' }} disabled={submitting}>
+                {submitting ? 'Submitting…' : 'Submit Request →'}
+              </button>
+            </form>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
+// ── Main Nav ──────────────────────────────────────────────────────────────────
 export default function Nav() {
   const pathname = usePathname()
   const router   = useRouter()
@@ -66,11 +212,11 @@ export default function Nav() {
   const [searchQuery,       setSearchQuery]        = useState('')
   const [lang,              setLangState]          = useState('EN')
   const [isLight,           setIsLight]            = useState(false)
+  const [projectOpen,       setProjectOpen]        = useState(false)
 
   const navRef        = useRef<HTMLElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
-  // Restore theme on mount
   useEffect(() => {
     try {
       if (localStorage.getItem('kt-theme') === 'light') {
@@ -80,40 +226,34 @@ export default function Nav() {
     } catch {}
   }, [])
 
-  // Close everything on route change
   useEffect(() => {
-    setMobileOpen(false)
-    setMobileServicesOpen(false)
-    setServicesOpen(false)
-    setSearchOpen(false)
-    setAppsOpen(false)
+    setMobileOpen(false); setMobileServicesOpen(false)
+    setServicesOpen(false); setSearchOpen(false)
+    setAppsOpen(false); setProjectOpen(false)
   }, [pathname])
 
-  // Lock body scroll when mobile open
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    document.body.style.overflow = (mobileOpen || projectOpen) ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
-  }, [mobileOpen])
+  }, [mobileOpen, projectOpen])
 
-  // Auto-focus search input
   useEffect(() => {
     if (searchOpen) setTimeout(() => searchInputRef.current?.focus(), 60)
     else setSearchQuery('')
   }, [searchOpen])
 
-  // Keyboard shortcuts
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setSearchOpen(false); setAppsOpen(false)
         setServicesOpen(false); setMobileOpen(false)
+        setProjectOpen(false)
       }
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
   }, [])
 
-  // Close dropdowns on outside click
   useEffect(() => {
     const handle = (e: MouseEvent) => {
       if (!navRef.current?.contains(e.target as Node)) {
@@ -157,49 +297,58 @@ export default function Nav() {
       <header className="kt-nav" role="banner" ref={navRef}>
         <div className="kt-nav__inner">
 
-          {/* Left: logo + desktop nav */}
+          {/* Col 1: Logo */}
           <div className="kt-nav__left">
             <Link className="kt-nav__logo" href="/" aria-label="Kyberia Tech — Home">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/icon.svg" alt="" width={26} height={26} className="kt-logo-img" aria-hidden="true" />
               <span>Kyberia Tech</span>
             </Link>
-
-            <nav className="kt-nav__links" aria-label="Main navigation">
-              <Link href="/about"   className={isActive('/about')    ? 'active' : ''}>About</Link>
-
-              {/* Services dropdown */}
-              <div className={`kt-sdrop${servicesOpen ? ' open' : ''}`}>
-                <a
-                  className={isActive('/services') ? 'active' : ''}
-                  onClick={e => { e.stopPropagation(); setServicesOpen(v => !v); setAppsOpen(false) }}
-                >
-                  Services <span className="kt-chev">▾</span>
-                </a>
-                <div className="kt-submenu" role="menu" aria-label="Services submenu">
-                  <Link className="submenu-item" href="/services/branding" role="menuitem">
-                    <span className="si-num">01</span>
-                    <div className="si-text"><span className="si-name">Branding &amp; Strategy</span><span className="si-desc">Positioning · Identity · Messaging</span></div>
-                  </Link>
-                  <Link className="submenu-item" href="/services/design" role="menuitem">
-                    <span className="si-num">02</span>
-                    <div className="si-text"><span className="si-name">Graphic Design</span><span className="si-desc">Logo · UI/UX · Motion · Print</span></div>
-                  </Link>
-                  <Link className="submenu-item" href="/services/web" role="menuitem">
-                    <span className="si-num">03</span>
-                    <div className="si-text"><span className="si-name">Web Design &amp; Development</span><span className="si-desc">Websites · Apps · E-commerce</span></div>
-                  </Link>
-                </div>
-              </div>
-
-              <Link href="/work"    className={isActive('/work')     ? 'active' : ''}>Work</Link>
-              <a    href="https://store.kyberia.tech" target="_blank" rel="noopener">Store</a>
-              <Link href="/contact" className={isActive('/contact')  ? 'active' : ''}>Contact</Link>
-            </nav>
           </div>
 
-          {/* Right controls */}
+          {/* Col 2: Nav links (centered) */}
+          <nav className="kt-nav__links" aria-label="Main navigation">
+            <Link href="/about" className={isActive('/about') ? 'active' : ''}>About</Link>
+
+            <div className={`kt-sdrop${servicesOpen ? ' open' : ''}`}>
+              <a
+                className={isActive('/services') ? 'active' : ''}
+                onClick={e => { e.stopPropagation(); setServicesOpen(v => !v); setAppsOpen(false) }}
+              >
+                Services <span className="kt-chev">▾</span>
+              </a>
+              <div className="kt-submenu" role="menu" aria-label="Services submenu">
+                <Link className="submenu-item" href="/services/branding" role="menuitem">
+                  <span className="si-num">01</span>
+                  <div className="si-text"><span className="si-name">Branding &amp; Strategy</span><span className="si-desc">Positioning · Identity · Messaging</span></div>
+                </Link>
+                <Link className="submenu-item" href="/services/design" role="menuitem">
+                  <span className="si-num">02</span>
+                  <div className="si-text"><span className="si-name">Graphic Design</span><span className="si-desc">Logo · UI/UX · Motion · Print</span></div>
+                </Link>
+                <Link className="submenu-item" href="/services/web" role="menuitem">
+                  <span className="si-num">03</span>
+                  <div className="si-text"><span className="si-name">Web Design &amp; Development</span><span className="si-desc">Websites · Apps · E-commerce</span></div>
+                </Link>
+              </div>
+            </div>
+
+            <Link href="/work"  className={isActive('/work')    ? 'active' : ''}>Work</Link>
+            <a href="https://store.kyberia.tech" target="_blank" rel="noopener">Store</a>
+            <Link href="/contact" className={isActive('/contact') ? 'active' : ''}>Contact</Link>
+          </nav>
+
+          {/* Col 3: Right controls */}
           <div className="kt-nav__right">
+
+            {/* New Project CTA */}
+            <button
+              className="kt-nav__new-btn"
+              onClick={() => { setProjectOpen(true); setAppsOpen(false); setServicesOpen(false) }}
+              aria-label="Start a new project"
+            >
+              New Project →
+            </button>
 
             {/* Apps grid */}
             <div className="kt-apps-wrap" style={{ position: 'relative' }}>
@@ -290,7 +439,6 @@ export default function Nav() {
         >
           <div className="kt-mob-card" onClick={e => e.stopPropagation()}>
 
-            {/* Card header */}
             <div className="kmc-header">
               <Link href="/" className="kmc-logo" onClick={() => setMobileOpen(false)}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -304,19 +452,20 @@ export default function Nav() {
               </button>
             </div>
 
-            {/* Nav links */}
+            {/* New Project button — mobile */}
+            <button
+              className="btn-primary"
+              style={{ width: '100%', justifyContent: 'center', margin: '0 0 4px' }}
+              onClick={() => { setMobileOpen(false); setProjectOpen(true) }}
+            >
+              New Project →
+            </button>
+
             <nav className="kmc-nav">
-              <Link
-                className={`kmc-link${isActive('/about') ? ' active' : ''}`}
-                href="/about"
-                onClick={() => setMobileOpen(false)}
-              >About</Link>
+              <Link className={`kmc-link${isActive('/about') ? ' active' : ''}`} href="/about" onClick={() => setMobileOpen(false)}>About</Link>
 
               <div className={`kmc-sdrop${mobileServicesOpen ? ' open' : ''}`}>
-                <button
-                  className="kmc-link kmc-sdrop__btn"
-                  onClick={() => setMobileServicesOpen(v => !v)}
-                >
+                <button className="kmc-link kmc-sdrop__btn" onClick={() => setMobileServicesOpen(v => !v)}>
                   Services <span className="kmc-chev">▾</span>
                 </button>
                 <div className="kmc-sub">
@@ -326,38 +475,19 @@ export default function Nav() {
                 </div>
               </div>
 
-              <Link
-                className={`kmc-link${isActive('/work') ? ' active' : ''}`}
-                href="/work"
-                onClick={() => setMobileOpen(false)}
-              >Work</Link>
-              <a
-                className="kmc-link"
-                href="https://store.kyberia.tech"
-                target="_blank"
-                rel="noopener"
-                onClick={() => setMobileOpen(false)}
-              >Store <span style={{ fontSize: 10, opacity: .6 }}>↗</span></a>
-              <Link
-                className={`kmc-link${isActive('/contact') ? ' active' : ''}`}
-                href="/contact"
-                onClick={() => setMobileOpen(false)}
-              >Contact</Link>
+              <Link className={`kmc-link${isActive('/work') ? ' active' : ''}`} href="/work" onClick={() => setMobileOpen(false)}>Work</Link>
+              <a className="kmc-link" href="https://store.kyberia.tech" target="_blank" rel="noopener" onClick={() => setMobileOpen(false)}>
+                Store <span style={{ fontSize: 10, opacity: .6 }}>↗</span>
+              </a>
+              <Link className={`kmc-link${isActive('/contact') ? ' active' : ''}`} href="/contact" onClick={() => setMobileOpen(false)}>Contact</Link>
             </nav>
 
-            {/* Ecosystem apps */}
             <div className="kmc-apps">
               <div className="kmc-apps__label">Kyberia Ecosystem</div>
               <div className="kmc-apps__grid">
                 {APPS.map(app => (
-                  <a
-                    key={app.href}
-                    href={app.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => setMobileOpen(false)}
-                    className="kmc-app"
-                  >
+                  <a key={app.href} href={app.href} target="_blank" rel="noopener noreferrer"
+                    onClick={() => setMobileOpen(false)} className="kmc-app">
                     <div className="kmc-app__badge" style={{ background: app.color }}>
                       <AppIcon type={app.type} letter={app.letter} />
                     </div>
@@ -367,7 +497,6 @@ export default function Nav() {
               </div>
             </div>
 
-            {/* Footer: account + theme + lang */}
             <div className="kmc-footer">
               <AccountManager />
               <div className="kmc-footer__btns">
@@ -452,6 +581,9 @@ export default function Nav() {
           </div>
         </div>
       )}
+
+      {/* ── New Project Modal ───────────────────────────────────────── */}
+      {projectOpen && <NewProjectModal onClose={() => setProjectOpen(false)} />}
     </>
   )
 }
